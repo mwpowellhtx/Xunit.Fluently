@@ -1,0 +1,29 @@
+<Project ToolsVersion="15.0">
+
+  <!-- ReSharper disable UnknownProperty -->
+  <Target Name="PackAssemblyNuGetArtifacts" AfterTargets="AfterBuild">
+
+    <!-- TODO: TBD: we might even want to preface this, or caller might want to specify the commands, etc, or we allow for some arguments, etc, to better customize. -->
+    <PropertyGroup>
+      <_NuGetTags>$(PackageTags.Replace(';', ' '))</_NuGetTags>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <_NuGetProperties>Configuration=$(Configuration)</_NuGetProperties>
+      <_NuGetProperties Condition="'$(_NuGetTags)' != ''">$(_NuGetProperties);tags=$(_NuGetTags)</_NuGetProperties>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <_CommandText>nuget pack</_CommandText>
+      <_CommandText>$(_CommandText) &quot;$(MSBuildProjectName).csproj&quot;</_CommandText>
+      <_CommandText>$(_CommandText) -OutputDirectory &quot;bin\$(Configuration)&quot;</_CommandText>
+      <_CommandText>$(_CommandText) -Version $(PackageVersion)</_CommandText>
+      <_CommandText>$(_CommandText) -Properties &quot;$(_NuGetProperties)&quot;</_CommandText>
+    </PropertyGroup>
+
+    <Exec Command="$(_CommandText)" />
+
+  </Target>
+  <!-- ReSharper restore UnknownProperty -->
+
+</Project>
