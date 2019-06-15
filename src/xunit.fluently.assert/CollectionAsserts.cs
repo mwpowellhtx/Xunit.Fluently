@@ -108,10 +108,7 @@ namespace Xunit
         /// <see cref="Assert.Empty"/>
         public static T AssertEmpty<T>(this T collection)
             where T : IEnumerable
-        {
-            Assert.Empty(collection);
-            return collection;
-        }
+            => InvokeUnaryWithReturn(x => Assert.Empty(x), collection);
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> is Not Empty.
@@ -122,10 +119,7 @@ namespace Xunit
         /// <see cref="Assert.NotEmpty"/>
         public static T AssertNotEmpty<T>(this T collection)
             where T : IEnumerable
-        {
-            Assert.NotEmpty(collection);
-            return collection;
-        }
+            => InvokeUnaryWithReturn(x => Assert.NotEmpty(x), collection);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -136,7 +130,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T})"/>
         public static IEnumerable<T> Equal<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -159,7 +153,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
         /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T})"/>
         public static IEnumerable<T> NotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
