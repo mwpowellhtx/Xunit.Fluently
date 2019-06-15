@@ -14,7 +14,7 @@
 
   <PropertyGroup>
     <PackageProjectUrl>http://github.com/mwpowellhtx/Xunit.Fluently</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/mwpowellhtx/Xunit.Fluently/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
