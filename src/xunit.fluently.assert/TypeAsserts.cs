@@ -24,10 +24,7 @@ namespace Xunit
         /// <returns>The weakly <paramref name="expectedType"/> typed <paramref name="value"/> following successful Assertion.</returns>
         /// <see cref="Assert.IsAssignableFrom"/>
         public static object AssertIsAssignableFrom(this object value, Type expectedType)
-        {
-            Assert.IsAssignableFrom(expectedType, value);
-            return value;
-        }
+            => InvokeBinaryWithReturn(Assert.IsAssignableFrom, value, expectedType);
 
         /// <summary>
         /// Verifies that the <paramref name="value"/> is Not of the Type
@@ -51,10 +48,7 @@ namespace Xunit
         /// <param name="expectedType">The Expected Type used during inspection.</param>
         /// <returns></returns>
         public static object AssertIsNotType(this object value, Type expectedType)
-        {
-            Assert.IsNotType(expectedType, value);
-            return value;
-        }
+            => InvokeBinaryWithReturn(Assert.IsNotType, value, expectedType);
 
         /// <summary>
         /// Verifies that the <paramref name="value"/> is of the Type <typeparamref name="T"/>,
@@ -74,9 +68,6 @@ namespace Xunit
         /// <param name="expectedType">The Expected Type used during inspection.</param>
         /// <returns></returns>
         public static object AssertIsType(this object value, Type expectedType)
-        {
-            Assert.IsType(expectedType, value);
-            return value;
-        }
+            => InvokeBinaryWithReturn(Assert.IsType, value, expectedType);
     }
 }

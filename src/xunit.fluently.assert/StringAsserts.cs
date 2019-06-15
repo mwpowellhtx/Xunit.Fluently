@@ -16,21 +16,9 @@ namespace Xunit
         /// <see cref="Assert.Contains(string,string)"/>
         /// <see cref="Assert.Contains(string,string,StringComparison)"/>
         public static string AssertContains(this string actualString, string expectedSubstring, StringComparison? comparison = null)
-        {
-            // ReSharper disable SwitchStatementMissingSomeCases
-            switch (comparison)
-            {
-                case null:
-                    Assert.Contains(expectedSubstring, actualString);
-                    break;
-
-                default:
-                    Assert.Contains(expectedSubstring, actualString, comparison.Value);
-                    break;
-            }
-
-            return actualString;
-        }
+            => comparison == null
+                ? InvokeBinaryWithReturn(Assert.Contains, actualString, expectedSubstring)
+                : InvokeStringComparison(Assert.Contains, actualString, expectedSubstring, comparison.Value);
 
         /// <summary>
         /// Verifies that <paramref name="actualString"/> Contains
@@ -43,20 +31,9 @@ namespace Xunit
         /// <see cref="Assert.DoesNotContain(string,string)"/>
         /// <see cref="Assert.DoesNotContain(string,string,StringComparison)"/>
         public static string AssertDoesNotContain(this string actualString, string expectedSubstring, StringComparison? comparison)
-        {
-            switch (comparison)
-            {
-                case null:
-                    Assert.DoesNotContain(expectedSubstring, actualString);
-                    break;
-
-                default:
-                    Assert.DoesNotContain(expectedSubstring, actualString, comparison.Value);
-                    break;
-            }
-
-            return actualString;
-        }
+            => comparison == null
+                ? InvokeBinaryWithReturn(Assert.DoesNotContain, actualString, expectedSubstring)
+                : InvokeStringComparison(Assert.DoesNotContain, actualString, expectedSubstring, comparison.Value);
 
         /// <summary>
         /// Verifies that <paramref name="actualString"/> Starts With
@@ -69,20 +46,9 @@ namespace Xunit
         /// <see cref="Assert.StartsWith(string,string)"/>
         /// <see cref="Assert.StartsWith(string,string,StringComparison)"/>
         public static string AssertStartsWith(this string actualString, string expectedSubstring, StringComparison? comparison)
-        {
-            switch (comparison)
-            {
-                case null:
-                    Assert.StartsWith(expectedSubstring, actualString);
-                    break;
-
-                default:
-                    Assert.StartsWith(expectedSubstring, actualString, comparison.Value);
-                    break;
-            }
-
-            return actualString;
-        }
+            => comparison == null
+                ? InvokeBinaryWithReturn(Assert.StartsWith, actualString, expectedSubstring)
+                : InvokeStringComparison(Assert.StartsWith, actualString, expectedSubstring, comparison.Value);
 
         /// <summary>
         /// Verifies that <paramref name="actualString"/> Ends With
@@ -95,21 +61,9 @@ namespace Xunit
         /// <see cref="Assert.EndsWith(string,string)"/>
         /// <see cref="Assert.EndsWith(string,string,StringComparison)"/>
         public static string AssertEndsWith(this string actualString, string expectedSubstring, StringComparison? comparison)
-        {
-            switch (comparison)
-            {
-                case null:
-                    Assert.EndsWith(expectedSubstring, actualString);
-                    break;
-
-                default:
-                    Assert.EndsWith(expectedSubstring, actualString, comparison.Value);
-                    break;
-            }
-            // ReSharper restore SwitchStatementMissingSomeCases
-
-            return actualString;
-        }
+            => comparison == null
+                ? InvokeBinaryWithReturn(Assert.EndsWith, actualString, expectedSubstring)
+                : InvokeStringComparison(Assert.EndsWith, actualString, expectedSubstring, comparison.Value);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -139,9 +93,7 @@ namespace Xunit
         /// <see cref="Assert.Equal(string,string,bool,bool,bool)"/>
         public static string AssertEqual(this string actual, string expected, bool ignoreCase = false
             , bool ignoreLineEndingDifferences = false, bool ignoreWhiteSpaceDifferences = false)
-        {
-            Assert.Equal(expected, actual, ignoreCase, ignoreLineEndingDifferences, ignoreWhiteSpaceDifferences);
-            return actual;
-        }
+            => InvokeStringComparison(Assert.Equal, actual, expected, ignoreCase, ignoreLineEndingDifferences
+                , ignoreWhiteSpaceDifferences);
     }
 }

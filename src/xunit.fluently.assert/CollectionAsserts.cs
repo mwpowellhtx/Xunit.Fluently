@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 // ReSharper disable once IdentifierTypo
 namespace Xunit
 {
     public static partial class FluentlyExtensionMethods
     {
+        // ReSharper disable PossibleMultipleEnumeration
         /// <summary>
         /// Verifies that the <paramref name="collection"/> contains exactly the number of
         /// elements aligned with <paramref name="elementInspectors"/>, and which meet the
@@ -19,10 +21,10 @@ namespace Xunit
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertCollection<T>(this IEnumerable<T> collection, params Action<T>[] elementInspectors)
         {
-            // ReSharper disable PossibleMultipleEnumeration
             Assert.Collection(collection, elementInspectors);
             return collection;
         }
+        // ReSharper restore PossibleMultipleEnumeration
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains All of the
@@ -33,14 +35,7 @@ namespace Xunit
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertContainsAll<T>(IEnumerable<T> collection, params T[] expectedElements)
-        {
-            foreach (var x in expectedElements)
-            {
-                Assert.Contains(x, collection);
-            }
-
-            return collection;
-        }
+            => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.Contains, g, x));
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains All of the
@@ -52,44 +47,29 @@ namespace Xunit
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertContainsAll<T>(IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expectedElements)
-        {
-            foreach (var x in expectedElements)
-            {
-                Assert.Contains(x, collection, comparer);
-            }
-
-            return collection;
-            // ReSharper restore PossibleMultipleEnumeration
-        }
+            => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.Contains, g, x, comparer));
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains elements matching the
-        /// <paramref name="predicate"/>.
+        /// <paramref name="filter"/>.
         /// </summary>
         /// <typeparam name="T">The type of the Elements to be verified.</typeparam>
         /// <param name="collection">The Collection being inspected.</param>
-        /// <param name="predicate">The Collection being inspected.</param>
+        /// <param name="filter">The Filter to apply during the comparison.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertContains<T>(IEnumerable<T> collection, Predicate<T> predicate)
-        {
-            // ReSharper disable PossibleMultipleEnumeration
-            Assert.Contains(collection, predicate);
-            return collection;
-        }
+        public static IEnumerable<T> AssertContains<T>(IEnumerable<T> collection, Predicate<T> filter)
+            => InvokeCollectionWithReturn(Assert.Contains, collection, filter);
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain elements matching
-        /// the <paramref name="predicate"/>.
+        /// the <paramref name="filter"/>.
         /// </summary>
         /// <typeparam name="T">The type of the Elements to be verified.</typeparam>
         /// <param name="collection">The Collection being inspected.</param>
-        /// <param name="predicate">The Collection being inspected.</param>
+        /// <param name="filter">The Filter to apply during the comparison.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertDoesNotContain<T>(IEnumerable<T> collection, Predicate<T> predicate)
-        {
-            Assert.DoesNotContain(collection, predicate);
-            return collection;
-        }
+        public static IEnumerable<T> AssertDoesNotContain<T>(IEnumerable<T> collection, Predicate<T> filter)
+            => InvokeCollectionWithReturn(Assert.DoesNotContain, collection, filter);
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain Any of the
@@ -100,14 +80,7 @@ namespace Xunit
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertDoesNotContainAny<T>(IEnumerable<T> collection, params T[] expectedElements)
-        {
-            foreach (var x in expectedElements)
-            {
-                Assert.DoesNotContain(x, collection);
-            }
-
-            return collection;
-        }
+            => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.DoesNotContain, g, x));
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain Any of the
@@ -119,15 +92,7 @@ namespace Xunit
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertDoesNotContainAny<T>(IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expectedElements)
-        {
-            foreach (var x in collection)
-            {
-                Assert.DoesNotContain(x, collection, comparer);
-            }
-
-            return collection;
-            // ReSharper restore PossibleMultipleEnumeration
-        }
+            => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.DoesNotContain, g, x, comparer));
 
         // TODO: TBD: public static TValue Contains<TKey, TValue>(TKey expected, IReadOnlyDictionary<TKey, TValue> collection)
         // TODO: TBD: public static TValue Contains<TKey, TValue>(TKey expected, IDictionary<TKey, TValue> collection)
@@ -171,11 +136,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T})"/>
         public static IEnumerable<T> Equal<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-        {
-            // ReSharper disable PossibleMultipleEnumeration
-            Assert.Equal(expected, actual);
-            return actual;
-        }
+            => InvokeBinaryWithReturn(Assert.Equal, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -187,10 +148,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
         public static IEnumerable<T> Equal<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer)
-        {
-            Assert.Equal(expected, actual, comparer);
-            return actual;
-        }
+            => InvokeBinaryWithReturn(Assert.Equal, actual, expected, comparer);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -201,10 +159,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
         /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T})"/>
         public static IEnumerable<T> NotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-        {
-            Assert.NotEqual(expected, actual);
-            return actual;
-        }
+            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -216,11 +171,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
         public static IEnumerable<T> NotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer)
-        {
-            Assert.NotEqual(expected, actual, comparer);
-            return actual;
-            // ReSharper restore PossibleMultipleEnumeration
-        }
+            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected, comparer);
 
         // TODO: TBD: public static object Single(IEnumerable collection)
         // TODO: TBD: public static void Single(IEnumerable collection, object expected)
