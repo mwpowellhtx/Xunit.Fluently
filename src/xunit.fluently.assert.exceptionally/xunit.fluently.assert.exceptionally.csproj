@@ -7,10 +7,10 @@
   <PropertyGroup>
     <Description>Provides a set of Exception oriented extension methods methods extending from Xunit.</Description>
     <TargetFramework>netstandard1.1</TargetFramework>
-    <Version>1.0.0.24716</Version>
-    <AssemblyVersion>1.0.0.24716</AssemblyVersion>
-    <FileVersion>1.0.0.24716</FileVersion>
-    <PackageVersion>1.0.0.24716</PackageVersion>
+    <Version>1.0.0.25218</Version>
+    <AssemblyVersion>1.0.0.25218</AssemblyVersion>
+    <FileVersion>1.0.0.25218</FileVersion>
+    <PackageVersion>1.0.0.25218</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
