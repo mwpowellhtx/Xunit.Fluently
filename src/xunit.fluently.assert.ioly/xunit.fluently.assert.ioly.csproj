@@ -2,17 +2,16 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
     <Description>Provides a set of I/O oriented extension methods methods extending from Xunit.</Description>
     <!-- "I/O" is the problem child, requires 1.3, not 1.1, in order to find the System.IO API surface area. -->
     <TargetFramework>netstandard1.3</TargetFramework>
-    <Version>1.0.0.2491</Version>
-    <AssemblyVersion>1.0.0.2491</AssemblyVersion>
-    <FileVersion>1.0.0.2491</FileVersion>
-    <PackageVersion>1.0.0.2491</PackageVersion>
+    <Version>1.0.0.14113</Version>
+    <AssemblyVersion>1.0.0.14113</AssemblyVersion>
+    <FileVersion>1.0.0.14113</FileVersion>
+    <PackageVersion>1.0.0.14113</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -25,5 +24,7 @@
     <PackageReference Include="xunit.assert" Version="$(XunitVersion)" />
   </ItemGroup>
   <!-- ReSharper restore UnknownProperty -->
+
+  <Import Project="..\Licensing.props" />
 
 </Project>

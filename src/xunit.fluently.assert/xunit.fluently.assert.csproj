@@ -2,16 +2,15 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
     <Description>Provides a set of general purpose Fluent Assertion extension methods methods extending from Xunit.</Description>
     <TargetFramework>netstandard1.1</TargetFramework>
-    <Version>1.0.0.2491</Version>
-    <AssemblyVersion>1.0.0.2491</AssemblyVersion>
-    <FileVersion>1.0.0.2491</FileVersion>
-    <PackageVersion>1.0.0.2491</PackageVersion>
+    <Version>1.0.0.19947</Version>
+    <AssemblyVersion>1.0.0.19947</AssemblyVersion>
+    <FileVersion>1.0.0.19947</FileVersion>
+    <PackageVersion>1.0.0.19947</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -24,5 +23,7 @@
     <PackageReference Include="xunit.assert" Version="$(XunitVersion)" />
   </ItemGroup>
   <!-- ReSharper restore UnknownProperty -->
+
+  <Import Project="..\Licensing.props" />
 
 </Project>
