@@ -5,10 +5,10 @@
     <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break</PackageTags>
     <TargetFramework>netstandard1.1</TargetFramework>
     <RootNamespace>Xunit.Theoretically</RootNamespace>
-    <Version>1.0.0.24280</Version>
-    <AssemblyVersion>1.0.0.24280</AssemblyVersion>
-    <FileVersion>1.0.0.24280</FileVersion>
-    <PackageVersion>1.0.0.24280</PackageVersion>
+    <Version>1.0.0.24811</Version>
+    <AssemblyVersion>1.0.0.24811</AssemblyVersion>
+    <FileVersion>1.0.0.24811</FileVersion>
+    <PackageVersion>1.0.0.24811</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
