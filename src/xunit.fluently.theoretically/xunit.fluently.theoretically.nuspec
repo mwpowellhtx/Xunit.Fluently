@@ -5,8 +5,8 @@
     <version>$version$</version>
     <authors>$authors$</authors>
     <owners>$authors$</owners>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/mwpowellhtx/Xunit.Fluently/blob/master/LICENSE</licenseUrl>
+    <license type="file">$licenseFile$</license>
+    <requireLicenseAcceptance>$requireLicenseAccept$</requireLicenseAcceptance>
     <projectUrl>http://github.com/mwpowellhtx/Xunit.Fluently</projectUrl>
     <description>$description$</description>
     <copyright>$copyright$</copyright>
@@ -18,4 +18,7 @@
       </group>
     </dependencies>
   </metadata>
+  <files>
+    <file src="..\..\$licenseFile$" target="." />
+  </files>
 </package>
