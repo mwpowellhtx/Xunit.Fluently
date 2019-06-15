@@ -5,6 +5,7 @@ namespace Xunit
 {
     public static partial class FluentlyExtensionMethods
     {
+        // ReSharper disable RedundantTypeArgumentsOfMethod
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
         /// </summary>
@@ -14,7 +15,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(T,T)"/>
         public static T AssertEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -37,7 +38,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.NotEqual{T}(T,T)"/>
         public static T AssertNotEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -60,7 +61,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T})"/>
         public static IEnumerable<T> AssertEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
 
         // ReSharper disable PossibleMultipleEnumeration
         /// <summary>
@@ -84,7 +85,7 @@ namespace Xunit
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T})"/>
         public static IEnumerable<T> AssertNotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -108,7 +109,7 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         public static T AssertStrictEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn(Assert.StrictEqual, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.StrictEqual, actual, expected);
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> is Strictly Not Equal with
@@ -119,6 +120,7 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         public static T AssertNotStrictEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn(Assert.NotStrictEqual, actual, expected);
+            => InvokeBinaryWithReturn<T>(Assert.NotStrictEqual, actual, expected);
+        // ReSharper restore RedundantTypeArgumentsOfMethod
     }
 }
