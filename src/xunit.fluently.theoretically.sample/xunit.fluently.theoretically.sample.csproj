@@ -1,14 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Demonstrates usage of the Xunit.Theoretical Test Cases base class.</Description>
     <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break;sample</PackageTags>
     <TargetFramework>netstandard1.1</TargetFramework>
     <RootNamespace>Xunit.Theoretically</RootNamespace>
-    <Version>1.0.0.15051</Version>
-    <AssemblyVersion>1.0.0.15051</AssemblyVersion>
-    <FileVersion>1.0.0.15051</FileVersion>
-    <PackageVersion>1.0.0.15051</PackageVersion>
+    <Version>1.0.0.24060</Version>
+    <AssemblyVersion>1.0.0.24060</AssemblyVersion>
+    <FileVersion>1.0.0.24060</FileVersion>
+    <PackageVersion>1.0.0.24060</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -26,6 +26,8 @@
     <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
   </ItemGroup>
   <!-- ReSharper restore UnknownProperty -->
+
+  <Import Project="..\Licensing.props" />
 
   <!-- There is very little point in specifying GeneratePackageOnBuild because of the
    xunit.core dependency. Instead, connect with our packaging after build targets. -->
