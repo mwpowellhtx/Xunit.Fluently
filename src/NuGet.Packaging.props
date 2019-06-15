@@ -7,14 +7,14 @@
     <PropertyGroup>
       <!-- Redresses the Tags a bit differently for presentation to NuGet Pack. Specifically, Space, not Semi-Colon, delimited. -->
       <_NuGetTags>$(PackageTags.Replace(';', ' '))</_NuGetTags>
-      <_LicenseExpr Condition="'$(PackageLicenseExpression)' != ''">$(PackageLicenseExpression)</_LicenseExpr>
+      <_LicenseFile Condition="'$(PackageLicenseFile)' != ''">$(PackageLicenseFile)</_LicenseFile>
       <_RequireLicenseAccept Condition="'$(PackageRequireLicenseAcceptance)' != ''">$(PackageRequireLicenseAcceptance)</_RequireLicenseAccept>
     </PropertyGroup>
 
     <PropertyGroup>
       <_NuGetProperties>Configuration=$(Configuration)</_NuGetProperties>
       <_NuGetProperties Condition="'$(_NuGetTags)' != ''">$(_NuGetProperties);tags=$(_NuGetTags)</_NuGetProperties>
-      <_NuGetProperties Condition="'$(_LicenseExpr)' != ''">$(_NuGetProperties);licenseExpr=$(_LicenseExpr)</_NuGetProperties>
+      <_NuGetProperties Condition="'$(_LicenseFile)' != ''">$(_NuGetProperties);licenseFile=$(_LicenseFile)</_NuGetProperties>
       <_NuGetProperties Condition="'$(_RequireLicenseAccept)' != ''">$(_NuGetProperties);requireLicenseAccept=$(_RequireLicenseAccept)</_NuGetProperties>
     </PropertyGroup>
 
