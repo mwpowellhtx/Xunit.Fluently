@@ -13,7 +13,8 @@ namespace Xunit
         /// <param name="value">The Value being inspected.</param>
         /// <returns>The strongly typed <typeparamref name="T"/> <paramref name="value"/> following successful Assertion.</returns>
         /// <see cref="Assert.IsAssignableFrom{T}"/>
-        public static T AssertIsAssignableFrom<T>(this object value) => Assert.IsAssignableFrom<T>(value);
+        public static T AssertIsAssignableFrom<T>(this object value)
+            => InvokeUnaryWithReturn(Assert.IsAssignableFrom<T>, value);
 
         /// <summary>
         /// Verifies that the <paramref name="value"/> is of the type
@@ -35,10 +36,7 @@ namespace Xunit
         /// <returns>The weakly typed <paramref name="value"/> following successful Assertion.</returns>
         /// <see cref="Assert.IsNotType{T}"/>
         public static object AssertIsNotType<T>(this object value)
-        {
-            Assert.IsNotType<T>(value);
-            return value;
-        }
+            => InvokeUnaryWithReturn(Assert.IsNotType<T>, value);
 
         /// <summary>
         /// Verifies that the <paramref name="value"/> is Not of the
@@ -58,7 +56,8 @@ namespace Xunit
         /// <param name="value">The Value being inspected.</param>
         /// <returns>The strongly typed <typeparamref name="T"/> <paramref name="value"/> following successful Assertion.</returns>
         /// <see cref="Assert.IsNotType{T}"/>
-        public static T AssertIsType<T>(this object value) => Assert.IsType<T>(value);
+        public static T AssertIsType<T>(this object value)
+            => InvokeUnaryWithReturn(Assert.IsType<T>, value);
 
         /// <summary>
         /// Verifies that the <paramref name="value"/> is of the <paramref name="expectedType"/>,
