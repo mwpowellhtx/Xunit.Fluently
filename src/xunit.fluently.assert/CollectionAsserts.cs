@@ -34,7 +34,7 @@ namespace Xunit
         /// <param name="collection">The Collection being inspected.</param>
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertContainsAll<T>(IEnumerable<T> collection, params T[] expectedElements)
+        public static IEnumerable<T> AssertContainsAll<T>(this IEnumerable<T> collection, params T[] expectedElements)
             => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.Contains, g, x));
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Xunit
         /// <param name="comparer">An Equality Comparer.</param>
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertContainsAll<T>(IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expectedElements)
+        public static IEnumerable<T> AssertContainsAll<T>(this IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expectedElements)
             => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.Contains, g, x, comparer));
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Xunit
         /// <param name="collection">The Collection being inspected.</param>
         /// <param name="filter">The Filter to apply during the comparison.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertContains<T>(IEnumerable<T> collection, Predicate<T> filter)
+        public static IEnumerable<T> AssertContains<T>(this IEnumerable<T> collection, Predicate<T> filter)
             => InvokeCollectionWithReturn(Assert.Contains, collection, filter);
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Xunit
         /// <param name="collection">The Collection being inspected.</param>
         /// <param name="filter">The Filter to apply during the comparison.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertDoesNotContain<T>(IEnumerable<T> collection, Predicate<T> filter)
+        public static IEnumerable<T> AssertDoesNotContain<T>(this IEnumerable<T> collection, Predicate<T> filter)
             => InvokeCollectionWithReturn(Assert.DoesNotContain, collection, filter);
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Xunit
         /// <param name="collection">The Collection being inspected.</param>
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertDoesNotContainAny<T>(IEnumerable<T> collection, params T[] expectedElements)
+        public static IEnumerable<T> AssertDoesNotContainAny<T>(this IEnumerable<T> collection, params T[] expectedElements)
             => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.DoesNotContain, g, x));
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Xunit
         /// <param name="comparer">An Equality Comparer.</param>
         /// <param name="expectedElements">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
-        public static IEnumerable<T> AssertDoesNotContainAny<T>(IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expectedElements)
+        public static IEnumerable<T> AssertDoesNotContainAny<T>(this IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expectedElements)
             => expectedElements.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.DoesNotContain, g, x, comparer));
 
         // TODO: TBD: public static TValue Contains<TKey, TValue>(TKey expected, IReadOnlyDictionary<TKey, TValue> collection)
