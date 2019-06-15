@@ -7,6 +7,7 @@
     <_LicenseFileDirectory>..\..\</_LicenseFileDirectory>
     <_DesiredLicenseFileName>LICENSE.</_DesiredLicenseFileName>
     <_InternalLicenseFileName>LICENSE.txt</_InternalLicenseFileName>
+    <_DesiredFilePath>$(_LicenseFileDirectory)$(_DesiredLicenseFileName)</_DesiredFilePath>
     <_LicenseFilePath>$(_LicenseFileDirectory)$(_InternalLicenseFileName)</_LicenseFilePath>
   </PropertyGroup>
 
@@ -26,7 +27,7 @@
   </ItemGroup>
 
   <Target Name="CopyLicenseFileForPackagingPurposes" BeforeTargets="BeforeBuild" Condition="!Exists('$(_LicenseFilePath)')">
-    <Copy SourceFiles="..\..\$(_DesiredLicenseFileName)" DestinationFiles="$(_LicenseFilePath)" />
+    <Copy SourceFiles="$(_DesiredFilePath)" DestinationFiles="$(_LicenseFilePath)" />
   </Target>
 
 </Project>
