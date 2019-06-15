@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Provides a foundation upon which Xunit Theory Class Data may be generated more succinctly.</Description>
+    <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break</PackageTags>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <RootNamespace>Xunit.Theoretically</RootNamespace>
+    <Version>1.0.0.15048</Version>
+    <AssemblyVersion>1.0.0.15048</AssemblyVersion>
+    <FileVersion>1.0.0.15048</FileVersion>
+    <PackageVersion>1.0.0.15048</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.theoretically.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <ItemGroup>
+    <!-- Assumes at least an (in)direct reference to the Core assembly for purposes of furnishing Class Data scaffold.
+     Literally, ClassDataAttribute emits from Xunit.Core, so we take that as our dependency. Otherwise, we make no
+     concrete references within the assembly. -->
+    <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
+  </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
+
+  <!-- There is very little point in specifying GeneratePackageOnBuild because of the
+   xunit.core dependency. Instead, connect with our packaging after build targets. -->
+  <Import Project="..\NuGet.Packaging.props" />
+
+</Project>
