@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{603876
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{225EAC41-1EAF-432B-9014-E99E2DFF96AB}"
 	ProjectSection(SolutionItems) = preProject
+		..\docs\Assert.from.Metadata.cs = ..\docs\Assert.from.Metadata.cs
 		Directory.Build.props = Directory.Build.props
+		Licensing.props = Licensing.props
 		NuGet.Config = NuGet.Config
 		NuGet.Packaging.props = NuGet.Packaging.props
 		tool\NuGet\publish.cmd = tool\NuGet\publish.cmd
