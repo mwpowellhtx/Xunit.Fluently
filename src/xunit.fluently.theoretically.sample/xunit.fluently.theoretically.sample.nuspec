@@ -7,7 +7,6 @@
     <owners>$authors$</owners>
     <license type="file">$licenseFile$</license>
     <requireLicenseAcceptance>$requireLicenseAccept$</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/mwpowellhtx/Xunit.Fluently/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://github.com/mwpowellhtx/Xunit.Fluently</projectUrl>
     <description>$description$</description>
     <copyright>$copyright$</copyright>
