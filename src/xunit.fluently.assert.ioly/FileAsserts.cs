@@ -57,7 +57,7 @@ namespace Xunit
 
         /// <summary>
         /// Verifies whether the File specified by <paramref name="path"/> Contains the string
-        /// <paramref name="s"/>. Implicitly asserts whether
+        /// <paramref name="expectedSubstring"/>. Implicitly asserts whether
         /// <see cref="AssertFileExists(string)"/>.
         /// </summary>
         /// <param name="path">The File Path being inspected.</param>
@@ -85,7 +85,7 @@ namespace Xunit
 
         /// <summary>
         /// Verifies whether the File specified by <paramref name="path"/> Does Not Contain
-        /// the string <paramref name="s"/>. Implicitly asserts whether
+        /// the string <paramref name="expectedSubstring"/>. Implicitly asserts whether
         /// <see cref="AssertFileExists(string)"/>.
         /// </summary>
         /// <param name="path">The File Path being inspected.</param>
