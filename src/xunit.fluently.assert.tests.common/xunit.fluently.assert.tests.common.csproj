@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xunit.fluently.theoretically\xunit.fluently.theoretically.csproj" />
+  </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
+
+</Project>
