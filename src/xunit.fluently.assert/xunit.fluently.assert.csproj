@@ -7,10 +7,10 @@
   <PropertyGroup>
     <Description>Provides a set of general purpose Fluent Assertion extension methods methods extending from Xunit.</Description>
     <TargetFramework>netstandard1.1</TargetFramework>
-    <Version>1.1.0.27243</Version>
-    <AssemblyVersion>1.1.0.27243</AssemblyVersion>
-    <FileVersion>1.1.0.27243</FileVersion>
-    <PackageVersion>1.1.0.27243</PackageVersion>
+    <Version>1.1.0.27249</Version>
+    <AssemblyVersion>1.1.0.27249</AssemblyVersion>
+    <FileVersion>1.1.0.27249</FileVersion>
+    <PackageVersion>1.1.0.27249</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
