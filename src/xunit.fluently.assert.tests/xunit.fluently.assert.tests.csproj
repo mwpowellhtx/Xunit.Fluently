@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.runner.console" Version="$(XunitVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\xunit.fluently.assert.exceptionally\xunit.fluently.assert.exceptionally.csproj" />
+    <ProjectReference Include="..\xunit.fluently.assert.ioly\xunit.fluently.assert.ioly.csproj" />
+    <ProjectReference Include="..\xunit.fluently.assert.tests.common\xunit.fluently.assert.tests.common.csproj" />
+    <ProjectReference Include="..\xunit.fluently.assert\xunit.fluently.assert.csproj" />
+    <ProjectReference Include="..\xunit.fluently.theoretically\xunit.fluently.theoretically.csproj" />
+  </ItemGroup>
+
+</Project>
