@@ -6,74 +6,25 @@ namespace Xunit
 {
     public static partial class IolyExtensionMethods
     {
-        // ReSharper restore IdentifierTypo
         /// <summary>
-        /// Verifies whether the asset represented by the <paramref name="info"/> Exists.
-        /// </summary>
-        /// <typeparam name="T">The Type of File System asset.</typeparam>
-        /// <param name="info">The Informational record being inspected.</param>
-        /// <returns>The <paramref name="info"/> following successful Assertion.</returns>
-        public static T AssertFileSystemAssetExists<T>(this T info)
-            where T : FileSystemInfo
-        {
-            Assert.True(File.Exists(Assert.IsType<FileInfo>(info).FullName));
-            return info;
-        }
-
-        /// <summary>
-        /// Verifies whether the <paramref name="path"/> File Exists.
+        /// Verifies whether the <paramref name="path"/> File <see cref="File.Exists"/>.
         /// </summary>
         /// <param name="path">The Path of the file being inspected.</param>
         /// <returns>The <paramref name="path"/> following successful Assertion.</returns>
         public static string AssertFileExists(this string path)
         {
-            new FileInfo(path).AssertFileSystemAssetExists();
+            new FileInfo(path).AssertFileSystemAssetExists(File.Exists);
             return path;
         }
 
         /// <summary>
-        /// Verifies whether the <paramref name="path"/> Directory Exists.
-        /// </summary>
-        /// <param name="path">The Path of the directory being inspected.</param>
-        /// <returns>The <paramref name="path"/> following successful Assertion.</returns>
-        public static string AssertDirectoryExists(this string path)
-        {
-            new DirectoryInfo(path).AssertFileSystemAssetExists();
-            return path;
-        }
-
-        /// <summary>
-        /// Verifies whether the asset represented by the <paramref name="info"/> Does Not Exist.
-        /// </summary>
-        /// <typeparam name="T">The Type of File System asset.</typeparam>
-        /// <param name="info">The Informational record being inspected.</param>
-        /// <returns>The <paramref name="info"/> following successful Assertion.</returns>
-        public static T AssertFileSystemAssetDoesNotExist<T>(this T info)
-            where T : FileSystemInfo
-        {
-            Assert.False(File.Exists(Assert.IsType<FileInfo>(info).FullName));
-            return info;
-        }
-
-        /// <summary>
-        /// Verifies whether the <paramref name="path"/> File Does Not Exist.
+        /// Verifies whether the <paramref name="path"/> Does Not <see cref="File.Exists"/>.
         /// </summary>
         /// <param name="path">The Path of the file being inspected.</param>
         /// <returns>The <paramref name="path"/> following successful Assertion.</returns>
         public static string AssertFileDoesNotExist(this string path)
         {
-            new FileInfo(path).AssertFileSystemAssetDoesNotExist();
-            return path;
-        }
-
-        /// <summary>
-        /// Verifies whether the <paramref name="path"/> Directory Does Not Exist.
-        /// </summary>
-        /// <param name="path">The Path of the directory being inspected.</param>
-        /// <returns>The <paramref name="path"/> following successful Assertion.</returns>
-        public static string AssertDirectoryDoesNotExist(this string path)
-        {
-            new DirectoryInfo(path).AssertFileSystemAssetDoesNotExist();
+            new FileInfo(path).AssertFileSystemAssetDoesNotExist(File.Exists);
             return path;
         }
 
