@@ -32,6 +32,17 @@ namespace Xunit
         }
 
         /// <summary>
+        /// Verifies whether the <paramref name="path"/> Directory Exists.
+        /// </summary>
+        /// <param name="path">The Path of the directory being inspected.</param>
+        /// <returns>The <paramref name="path"/> following successful Assertion.</returns>
+        public static string AssertDirectoryExists(this string path)
+        {
+            new DirectoryInfo(path).AssertFileSystemAssetExists();
+            return path;
+        }
+
+        /// <summary>
         /// Verifies whether the asset represented by the <paramref name="info"/> Does Not Exist.
         /// </summary>
         /// <typeparam name="T">The Type of File System asset.</typeparam>
@@ -52,6 +63,17 @@ namespace Xunit
         public static string AssertFileDoesNotExist(this string path)
         {
             new FileInfo(path).AssertFileSystemAssetDoesNotExist();
+            return path;
+        }
+
+        /// <summary>
+        /// Verifies whether the <paramref name="path"/> Directory Does Not Exist.
+        /// </summary>
+        /// <param name="path">The Path of the directory being inspected.</param>
+        /// <returns>The <paramref name="path"/> following successful Assertion.</returns>
+        public static string AssertDirectoryDoesNotExist(this string path)
+        {
+            new DirectoryInfo(path).AssertFileSystemAssetDoesNotExist();
             return path;
         }
 
