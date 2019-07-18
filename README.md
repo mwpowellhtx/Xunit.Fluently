@@ -14,9 +14,14 @@ If you find this project interesting and useful, yet have some concerns or gaps,
 
 Future goals include the following:
 
-- [ ] Provide ``AssertEqual`` support for such types as [double](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/double), [float](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/float) and [decimal](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/decimal).
+- [ ] There is an open *xUnit.net* issue to [add single precision float support](https://github.com/xunit/xunit/issues/1984). For the time being, actually, that is less critical for us in the current iteration paths, however, should that happen, then we can update for those assertions as well.
 - [ ] Ditto ``AssertNotEqual``, or derivative ``Assert`` patterns.
 - [ ] Consider *xUnit.net* ``ISet``, ``Range``, ``Property``, ``Event`` coverage.
+
+Some recent additions:
+
+- [x] Updated to include floating point comparisons involving [double](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/double) and [decimal](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/decimal) in a handful of different form factors.
+- [x] Also, added the ability to *functionally access actual values* for comparison with an *expected* result.
 
 Although we cannot promise exactly when these goals will be pursued, we evaluate such efforts on the basis of permitted time, suggested opportunity, and, necessarily, dictated requirement, and prioritize accordingly.
 
