@@ -39,7 +39,7 @@ namespace Xunit
         private static T InvokeExpectedWithReturn<T, TExpected>(Action<TExpected, TExpected> callback
             , T actual, TExpected expected, Func<T, TExpected> getter)
         {
-            callback.Invoke(getter(actual), expected);
+            callback.Invoke(expected, getter(actual));
             return actual;
         }
 
