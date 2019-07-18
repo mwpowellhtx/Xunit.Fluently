@@ -36,6 +36,13 @@ namespace Xunit
             return actual;
         }
 
+        private static T InvokeExpectedWithReturn<T, TExpected>(Action<TExpected, TExpected> callback
+            , T actual, TExpected expected, Func<T, TExpected> getter)
+        {
+            callback.Invoke(getter(actual), expected);
+            return actual;
+        }
+
         // ReSharper disable PossibleMultipleEnumeration
         private static IEnumerable<T> InvokeBinaryWithReturn<T>(Action<IEnumerable<T>, IEnumerable<T>> callback
             , IEnumerable<T> actual, IEnumerable<T> expected)
