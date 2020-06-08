@@ -1,34 +1,47 @@
 <Project ToolsVersion="15.0">
 
-  <!-- ReSharper disable UnknownProperty -->
-  <Target Name="PackAssemblyNuGetArtifacts" AfterTargets="AfterBuild">
+    <!-- Ordinarily we put this in the Directory.Build.props, but since we have exceptional
+     circumstances for the Packaging, this seems the better spot for it. -->
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+    </Target>
 
-    <!-- TODO: TBD: we might even want to preface this, or caller might want to specify the commands, etc, or we allow for some arguments, etc, to better customize. -->
-    <PropertyGroup>
-      <!-- Redresses the Tags a bit differently for presentation to NuGet Pack. Specifically, Space, not Semi-Colon, delimited. -->
-      <_NuGetTags>$(PackageTags.Replace(';', ' '))</_NuGetTags>
-      <_LicenseFile Condition="'$(PackageLicenseFile)' != ''">$(PackageLicenseFile)</_LicenseFile>
-      <_RequireLicenseAccept Condition="'$(PackageRequireLicenseAcceptance)' != ''">$(PackageRequireLicenseAcceptance)</_RequireLicenseAccept>
-    </PropertyGroup>
+    <!-- ReSharper disable UnknownProperty -->
+    <Target Name="PackAssemblyNuGetArtifacts" AfterTargets="AfterBuild">
 
-    <PropertyGroup>
-      <_NuGetProperties>Configuration=$(Configuration)</_NuGetProperties>
-      <_NuGetProperties Condition="'$(_NuGetTags)' != ''">$(_NuGetProperties);tags=$(_NuGetTags)</_NuGetProperties>
-      <_NuGetProperties Condition="'$(_LicenseFile)' != ''">$(_NuGetProperties);licenseFile=$(_LicenseFile)</_NuGetProperties>
-      <_NuGetProperties Condition="'$(_RequireLicenseAccept)' != ''">$(_NuGetProperties);requireLicenseAccept=$(_RequireLicenseAccept)</_NuGetProperties>
-    </PropertyGroup>
+        <!-- TODO: TBD: we might even want to preface this, or caller might want to specify the commands, etc, or we allow for some arguments, etc, to better customize. -->
+        <PropertyGroup>
+            <!-- Redresses the Tags a bit differently for presentation to NuGet Pack. Specifically, Space, not Semi-Colon, delimited. -->
+            <_DelimitedPackageTags>$(PackageTags.Replace(';', ' '))</_DelimitedPackageTags>
+            <_LicenseFile Condition="'$(PackageLicenseFile)' != ''">$(PackageLicenseFile)</_LicenseFile>
+            <_RequireLicenseAccept Condition="'$(PackageRequireLicenseAcceptance)' != ''">$(PackageRequireLicenseAcceptance)</_RequireLicenseAccept>
+        </PropertyGroup>
 
-    <PropertyGroup>
-      <_CommandText>nuget pack</_CommandText>
-      <_CommandText>$(_CommandText) &quot;$(MSBuildProjectName).csproj&quot;</_CommandText>
-      <_CommandText>$(_CommandText) -OutputDirectory &quot;bin\$(Configuration)&quot;</_CommandText>
-      <_CommandText>$(_CommandText) -Version $(PackageVersion)</_CommandText>
-      <_CommandText>$(_CommandText) -Properties &quot;$(_NuGetProperties)&quot;</_CommandText>
-    </PropertyGroup>
+        <ItemGroup>
+            <_NuGetCommandLineArguments Include="&quot;$(MSBuildProjectName).csproj&quot;" />
+            <_NuGetCommandLineArguments Include="-OutputDirectory &quot;bin\$(Configuration)&quot;" />
+            <_NuGetCommandLineArguments Include="-Version $(PackageVersion)" />
+            <!-- We cannot fill in _NuGetProperties as such here, so must defer until further on below. -->
+            <!-- <_NuGetCommandLineArguments Include="-Properties &quot;@(_NuGetProperties, ';')&quot;" /> -->
+        </ItemGroup>
 
-    <Exec Command="$(_CommandText)" />
+        <ItemGroup>
+            <_NuGetProperties Include="Configuration=$(Configuration)" />
+            <_NuGetProperties Include="tags=$(_DelimitedPackageTags)" Condition="'$(_DelimitedPackageTags)' != ''" />
+            <_NuGetProperties Include="licenseFile=$(_LicenseFile)" Condition="'$(_LicenseFile)' != ''" />
+            <_NuGetProperties Include="requireLicenseAccept=$(_RequireLicenseAccept)" Condition="'$(_RequireLicenseAccept)' != ''" />
+        </ItemGroup>
 
-  </Target>
-  <!-- ReSharper restore UnknownProperty -->
+        <Message Text="Running: nuget pack @(_NuGetCommandLineArguments, ' ') -Properties &quot;@(_NuGetProperties, ';')&quot;" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+
+        <!-- TODO: TBD: possibly running afoul: https://github.com/NuGet/Home/issues/8713
+         NuGet 5.3 issues a warning for the dependency group when it is specified (NU5128)
+          EXEC : warning : NU5128: Some target frameworks declared in the dependencies group of the nuspec and the lib/ref folder do not have exact matches in the other location. Consult the list of actions below:
+          - Add a dependency group for .NETStandard1.6 to the nuspec -->
+
+        <Exec Command="nuget pack @(_NuGetCommandLineArguments, ' ') -Properties &quot;@(_NuGetProperties, ';')&quot;" />
+
+    </Target>
+    <!-- ReSharper restore UnknownProperty -->
 
 </Project>
