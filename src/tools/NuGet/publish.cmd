@@ -39,6 +39,7 @@ rem Setup Fluently Theoretically
 set theory_projects=xunit.fluently.theoretically
 set theory_projects=%theory_projects%%delim%xunit.fluently.theoretically.sample
 
+set should_pause=1
 
 :parse_args
 
@@ -57,6 +58,11 @@ if "%1" == "--dry-run" (
     goto :next_arg
 )
 
+if "%1" == "--no-pause" (
+    set should_pause=
+    goto :next_arg
+)
+
 :set_config
 if "%1" == "--config" (
     set config=%2
@@ -67,6 +73,13 @@ if "%1" == "--config" (
 :set_publish_local
 if "%1" == "--local" (
     set function=local
+    goto :next_arg
+)
+
+:set_publish_drive
+if "%1" == "--drive" (
+    set xcopy_dest_drive=%2
+    shift
     goto :next_arg
 )
 
@@ -197,7 +210,8 @@ if "%config%" == "" (
 :set_vars
 set xcopy_exe=xcopy.exe
 set xcopy_opts=/y /f
-set xcopy_dest_dir=G:\Dev\NuGet\local\packages
+if "%xcopy_dest_drive%" == "" set xcopy_dest_drive=F:
+set xcopy_dest_dir=%xcopy_dest_drive%\Dev\NuGet\local\packages
 rem Expecting NuGet to be found in the System Path.
 set nuget_exe=NuGet.exe
 set nuget_push_verbosity=detailed
@@ -234,6 +248,10 @@ for %%f in ("%1\bin\%config%\%1.*.nupkg") do (
         echo Dry run: %xcopy_exe% %%f %xcopy_dest_dir% %xcopy_opts%
     ) else (
         echo Running: %xcopy_exe% %%f %xcopy_dest_dir% %xcopy_opts%
+        if not exist "%xcopy_dest_dir%" (
+            mkdir "%xcopy_dest_dir%"
+            echo Directory "%xcopy_dest_dir%" created.
+        )
         %xcopy_exe% %%f %xcopy_dest_dir% %xcopy_opts%
     )
 )
@@ -252,6 +270,8 @@ exit /b
 
 :end
 
-endlocal
+if "%should_pause%" == "1" (
+    pause
+)
 
-pause
+endlocal
