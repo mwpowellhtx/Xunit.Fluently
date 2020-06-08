@@ -8,7 +8,6 @@ namespace Xunit
         /// <summary>
         /// Unary Invocation which returns <paramref name="actual"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="callback"></param>
         /// <param name="actual"></param>
         /// <returns>The <paramref name="actual"/> value after successful <paramref name="callback"/>.</returns>
@@ -21,7 +20,6 @@ namespace Xunit
         /// <summary>
         /// Unary Invocation which returns <paramref name="actual"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="callback"></param>
         /// <param name="actual"></param>
         /// <returns>The <paramref name="actual"/> value after successful <paramref name="callback"/>.</returns>
