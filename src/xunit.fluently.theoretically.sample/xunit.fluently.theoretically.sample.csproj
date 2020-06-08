@@ -1,36 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Description>Demonstrates usage of the Xunit.Theoretical Test Cases base class.</Description>
-    <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break;sample</PackageTags>
-    <TargetFramework>netstandard1.1</TargetFramework>
-    <RootNamespace>Xunit.Theoretically</RootNamespace>
-    <Version>1.0.0.25222</Version>
-    <AssemblyVersion>1.0.0.25222</AssemblyVersion>
-    <FileVersion>1.0.0.25222</FileVersion>
-    <PackageVersion>1.0.0.25222</PackageVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Description>Demonstrates usage of the Xunit.Theoretical Test Cases base class.</Description>
+        <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break;sample</PackageTags>
+        <TargetFramework>netstandard1.1</TargetFramework>
+        <RootNamespace>Xunit.Theoretically</RootNamespace>
+        <Version>1.0.1.11562</Version>
+        <AssemblyVersion>1.0.1.11562</AssemblyVersion>
+        <FileVersion>1.0.1.11562</FileVersion>
+        <PackageVersion>1.0.1.11562</PackageVersion>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.theoretically.sample.xml</DocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.theoretically.sample.xml</DocumentationFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\xunit.fluently.theoretically\xunit.fluently.theoretically.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\xunit.fluently.theoretically\xunit.fluently.theoretically.csproj" />
+    </ItemGroup>
 
-  <!-- ReSharper disable UnknownProperty -->
-  <ItemGroup>
-    <!-- We should reference at least Xunit.Core here in order for it to be plain that this serves a Unit Test context only. -->
-    <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
-  </ItemGroup>
-  <!-- ReSharper restore UnknownProperty -->
+    <!-- ReSharper disable UnknownProperty -->
+    <ItemGroup>
+        <!-- We should reference at least Xunit.Core here in order for it to be plain that this serves a Unit Test context only. -->
+        <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
+    </ItemGroup>
+    <!-- ReSharper restore UnknownProperty -->
 
-  <Import Project="..\Licensing.props" />
+    <Import Project="..\Licensing.props" />
 
-  <!-- There is very little point in specifying GeneratePackageOnBuild because of the
-   xunit.core dependency. Instead, connect with our packaging after build targets. -->
-  <Import Project="..\NuGet.Packaging.props" />
+    <!-- There is very little point in specifying GeneratePackageOnBuild because of the
+     xunit.core dependency. Instead, connect with our packaging after build targets. -->
+    <Import Project="..\NuGet.Packaging.props" />
 
 </Project>
