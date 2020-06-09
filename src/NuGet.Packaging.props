@@ -1,11 +1,5 @@
 <Project ToolsVersion="15.0">
 
-    <!-- Ordinarily we put this in the Directory.Build.props, but since we have exceptional
-     circumstances for the Packaging, this seems the better spot for it. -->
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-    </Target>
-
     <!-- ReSharper disable UnknownProperty -->
     <Target Name="PackAssemblyNuGetArtifacts" AfterTargets="AfterBuild">
 

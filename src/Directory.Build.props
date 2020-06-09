@@ -12,6 +12,12 @@
         <WarningLevel>2</WarningLevel>
     </PropertyGroup>
 
+    <!-- Not sure what's going on since VS2019... Occasionally these temp files appear. -->
+    <ItemGroup>
+        <None Remove="*.TMP" />
+        <None Remove="**/*.TMP" />
+    </ItemGroup>
+
     <PropertyGroup>
         <PackageProjectUrl>http://github.com/mwpowellhtx/Xunit.Fluently</PackageProjectUrl>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -33,6 +39,11 @@
     <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
         <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions -->
         <!-- TODO: TBD: Property WhichVersionToBump can be filled in with Major, Minor, Patch, and so on... default is Patch -->
+        <BumpVersionSpec Include="Version" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
+        <BumpVersionSpec Include="AssemblyVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
+        <BumpVersionSpec Include="FileVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
+        <BumpVersionSpec Include="PackageVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
+
         <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
         <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
         <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
@@ -43,5 +54,12 @@
         <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
         <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
     </ItemGroup>
+
+    <!-- Ordinarily we put this in the Directory.Build.props, but since we have exceptional
+     circumstances for the Packaging, this seems the better spot for it. This really belongs
+     in the general Directory Build properties. -->
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+    </Target>
 
 </Project>
