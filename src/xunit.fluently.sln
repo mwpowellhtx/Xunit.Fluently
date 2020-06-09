@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{22
 		Licensing.props = Licensing.props
 		NuGet.Config = NuGet.Config
 		NuGet.Packaging.props = NuGet.Packaging.props
-		tool\NuGet\publish.cmd = tool\NuGet\publish.cmd
+		tools\NuGet\publish.cmd = tools\NuGet\publish.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD60B359-EEA0-4AAB-B5F0-F17DF68AA5E8}"
