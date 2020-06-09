@@ -5,6 +5,7 @@ packages/
 
 *.DotSettings
 *.user
+*.tmp
 
 # We want to preserve the extensionless file, but we do not want to commit this one.
 # This is a workaround to a broken licensing migration path.
