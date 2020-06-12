@@ -4,6 +4,7 @@
 namespace Xunit
 {
     using Abstractions;
+    using System.Collections.Generic;
 
     /// <inheritdoc />
     public abstract class TestFixtureBase : IDisposable
@@ -20,6 +21,20 @@ namespace Xunit
         protected TestFixtureBase(ITestOutputHelper outputHelper)
         {
             OutputHelper = outputHelper;
+        }
+
+        /// <summary>
+        /// Returns a fresh Range of <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        protected static IEnumerable<T> GetRange<T>(params T[] values)
+        {
+            foreach (var x in values)
+            {
+                yield return x;
+            }
         }
 
         /// <summary>

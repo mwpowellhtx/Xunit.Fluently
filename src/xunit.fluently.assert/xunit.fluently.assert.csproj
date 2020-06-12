@@ -8,10 +8,10 @@
     <PropertyGroup>
         <Description>Provides a set of general purpose Fluent Assertion extension methods methods extending from Xunit.</Description>
         <TargetFramework>netstandard1.1</TargetFramework>
-        <Version>1.4.0.17370</Version>
-        <AssemblyVersion>1.4.0.17370</AssemblyVersion>
-        <FileVersion>1.4.0.17370</FileVersion>
-        <PackageVersion>1.4.0.17370</PackageVersion>
+        <Version>1.5.0.1487</Version>
+        <AssemblyVersion>1.5.0.1487</AssemblyVersion>
+        <FileVersion>1.5.0.1487</FileVersion>
+        <PackageVersion>1.5.0.1487</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -26,5 +26,11 @@
     <!-- ReSharper restore UnknownProperty -->
 
     <Import Project="..\Licensing.props" />
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>xunit.fluently.assert.tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 
 </Project>
