@@ -15,7 +15,7 @@
     <!-- Not sure what's going on since VS2019... Occasionally these temp files appear. -->
     <ItemGroup>
         <None Remove="*.TMP" />
-        <None Remove="**/*.TMP" />
+        <None Remove="**\*.TMP" />
     </ItemGroup>
 
     <PropertyGroup>
