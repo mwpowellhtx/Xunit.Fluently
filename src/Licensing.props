@@ -5,36 +5,36 @@
 
     <PropertyGroup>
         <_LicenseFileDirectory>..\..\</_LicenseFileDirectory>
-        <_DesiredLicenseFileName>LICENSE.</_DesiredLicenseFileName>
-        <_InternalLicenseFileName>LICENSE.txt</_InternalLicenseFileName>
-        <_DesiredFilePath>$(_LicenseFileDirectory)$(_DesiredLicenseFileName)</_DesiredFilePath>
-        <_LicenseFilePath>$(_LicenseFileDirectory)$(_InternalLicenseFileName)</_LicenseFilePath>
+        <_SourceLicenseFileName>LICENSE.</_SourceLicenseFileName>
+        <_TargetLicenseFileName>LICENSE.txt</_TargetLicenseFileName>
+        <_SourceFilePath>$(_LicenseFileDirectory)$(_SourceLicenseFileName)</_SourceFilePath>
+        <_TargetLicenseFilePath>$(_TargetLicenseFileName)</_TargetLicenseFilePath>
     </PropertyGroup>
 
     <!-- TODO: TBD: specify one or the other, the LICENSE file is preferred, we think. -->
     <PropertyGroup>
-        <PackageLicenseFile>$(_InternalLicenseFileName)</PackageLicenseFile>
+        <PackageLicenseFile>$(_TargetLicenseFileName)</PackageLicenseFile>
     </PropertyGroup>
 
     <PropertyGroup>
-        <!--<PackageLicenseExpression Condition="!Exists('$(_LicenseFilePath)')">GPL-3.0-only</PackageLicenseExpression>-->
+        <!--<PackageLicenseExpression Condition="!Exists('$(_TargetLicenseFilePath)')">GPL-3.0-only</PackageLicenseExpression>-->
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="$(_LicenseFilePath)" Pack="true" PackagePath="$(_InternalLicenseFileName)">
+        <None Include="$(_TargetLicenseFilePath)" Pack="true" PackagePath="$(_TargetLicenseFileName)">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
-    <Target Name="CleanLicenseFileForPackagingPurposes" BeforeTargets="Clean" Condition="Exists('$(_LicenseFilePath)')">
-        <Delete Files="$(_LicenseFilePath)" />
-        <Message Text="'$(_LicenseFilePath)' deleted." Importance="high" />
+    <Target Name="CleanLicenseFileForPackagingPurposes" BeforeTargets="Clean" Condition="Exists('$(_TargetLicenseFilePath)')">
+        <Delete Files="$(_TargetLicenseFilePath)" />
+        <Message Text="'$(_TargetLicenseFilePath)' deleted." Importance="high" />
     </Target>
 
-    <Target Name="CopyLicenseFileForPackagingPurposes" BeforeTargets="BeforeBuild" Condition="Exists('$(_DesiredFilePath)')">
+    <Target Name="CopyLicenseFileForPackagingPurposes" BeforeTargets="BeforeBuild" Condition="Exists('$(_SourceFilePath)')">
         <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/copy-task -->
-        <Copy SourceFiles="$(_DesiredFilePath)" DestinationFiles="$(_LicenseFilePath)" SkipUnchangedFiles="true" />
-        <Message Text="'$(_DesiredFilePath)' copied to '$(_LicenseFilePath)'." Importance="high" />
+        <Copy SourceFiles="$(_SourceFilePath)" DestinationFiles="$(_TargetLicenseFilePath)" SkipUnchangedFiles="true" />
+        <Message Text="'$(_SourceFilePath)' copied to '$(_TargetLicenseFilePath)'." Importance="high" />
     </Target>
 
 </Project>
