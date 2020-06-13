@@ -126,7 +126,7 @@ namespace Xunit
                 }
                 else if (i > 0)
                 {
-                    return CreatePair(pattern.Substring(0, i).UnescapeString(), pattern[i]);
+                    return CreatePair(pattern.Substring(0, i), pattern[i]);
                 }
                 else
                 {
@@ -136,12 +136,12 @@ namespace Xunit
 
                     if (remaining.Length > 0 && j < 0)
                     {
-                        return CreatePair(pattern[0], remaining.UnescapeString());
+                        return CreatePair(pattern[0], remaining);
                     }
                     else if (remaining.Length > 0 && j > 0)
                     {
                         // We will not worry about collapsing wildcards at the moment...
-                        return CreatePair(pattern[0], remaining.Substring(0, j).UnescapeString());
+                        return CreatePair(pattern[0], remaining.Substring(0, j));
                     }
                     else
                     {
@@ -221,7 +221,7 @@ namespace Xunit
                     expectedConcrete = concreteToken.Item1;
                     // Minding the indices, and throughout...
                     actualConcrete = actual.Substring(i);
-                    if (actualConcrete.UnescapeString().IndexOf(expectedConcrete) != 0)
+                    if (actualConcrete.UnescapeString().IndexOf(expectedConcrete.UnescapeString()) != 0)
                     {
                         throw ThrowLikeException(j, i);
                     }
@@ -233,7 +233,7 @@ namespace Xunit
                 {
                     expectedConcrete = concreteWildcardTokens.Item1;
                     actualConcrete = actual.Substring(i);
-                    if (actualConcrete.UnescapeString().IndexOf(expectedConcrete) != 0)
+                    if (actualConcrete.UnescapeString().IndexOf(expectedConcrete.UnescapeString()) != 0)
                     {
                         throw ThrowLikeException(j, i);
                     }
@@ -260,7 +260,7 @@ namespace Xunit
                     wildcard = wildcardConcreteTokens.Item1;
                     expectedConcrete = wildcardConcreteTokens.Item2;
                     actualConcrete = actual.Substring(i);
-                    k = actualConcrete.UnescapeString().IndexOf(expectedConcrete);
+                    k = actualConcrete.UnescapeString().IndexOf(expectedConcrete.UnescapeString());
                     if ((wildcard == ExactlyOne && k != 1) || (wildcard == OnePlus && k == 0) || k < 0)
                     {
                         throw ThrowLikeException(j, i);

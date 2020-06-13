@@ -375,14 +375,20 @@ namespace Xunit
 
             const string a = "this is a test";
 
+            Func<char, string> getThisIsATest = x => $"this is {x} a test".EscapeWildcardActual();
+
             foreach (var mappedFact in mappedFactories)
             {
                 var wildcard = mappedFact.Wildcard;
 
-                var actual = $"{a}{mappedFact.Factory(wildcard)}{a}";
-                var expectedPattern = $"{a}{wildcard}{a}";
+                // Yielding concrete literals with and without escaped sequences, not only in the wildcard fly over substrings.
+                yield return GetRange<object>($"{a}{mappedFact.Factory(wildcard)}{a}", $"{a}{wildcard}{a}").ToArray();
 
-                yield return GetRange<object>(actual, expectedPattern).ToArray();
+                foreach (var x in Wildcards)
+                {
+                    var b = getThisIsATest.Invoke(x);
+                    yield return GetRange<object>($"{b}{mappedFact.Factory(wildcard)}{b}", $"{b}{wildcard}{b}").ToArray();
+                }
             }
         }
 
@@ -398,6 +404,6 @@ namespace Xunit
             , MemberData(nameof(EscapeWildcardActualTestCases), DisableDiscoveryEnumeration = true)
         ]
         public void EscapeWildcardActual_Is_Correct(string actual, string expectedPattern)
-            => actual.EscapeWildcardActual().AssertLike(expectedPattern);
+            => actual.AssertLike(expectedPattern);
     }
 }
