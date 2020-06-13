@@ -2,10 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
-        <Version>1.1.0.25315</Version>
-        <AssemblyVersion>1.1.0.25315</AssemblyVersion>
-        <FileVersion>1.1.0.25315</FileVersion>
-        <PackageVersion>1.1.0.25315</PackageVersion>
+        <Version>1.1.0.25330</Version>
+        <AssemblyVersion>1.1.0.25330</AssemblyVersion>
+        <FileVersion>1.1.0.25330</FileVersion>
+        <PackageVersion>1.1.0.25330</PackageVersion>
     </PropertyGroup>
 
     <!-- ReSharper disable UnknownProperty -->

@@ -203,6 +203,7 @@ namespace Xunit
             int i, j;
             int[] deltas;
 
+            // Make sure that the indices align properly with actual and expected bits.
             for (i = 0, j = 0; i < actual.Length && j < expectedPattern.Length; i += deltas[0], j += deltas[1])
             {
                 int k;
@@ -211,16 +212,18 @@ namespace Xunit
                 string actualConcrete;
                 string expectedConcrete;
 
-                var tokens = expectedPattern.Substring(i).TokenizePattern();
+                // Minding the indices...
+                var tokens = expectedPattern.Substring(j).TokenizePattern();
 
                 // We could use a switch statement, but that is slower, and this is perhaps a bit more effective.
                 if (tokens is Tuple<string> concreteToken)
                 {
                     expectedConcrete = concreteToken.Item1;
+                    // Minding the indices, and throughout...
                     actualConcrete = actual.Substring(i);
-                    if (actualConcrete.IndexOf(expectedConcrete) != 0)
+                    if (actualConcrete.UnescapeString().IndexOf(expectedConcrete) != 0)
                     {
-                        throw ThrowLikeException(i, j);
+                        throw ThrowLikeException(j, i);
                     }
                     deltas = new int[] { actualConcrete.Length, expectedConcrete.Length };
                     continue;
@@ -230,9 +233,9 @@ namespace Xunit
                 {
                     expectedConcrete = concreteWildcardTokens.Item1;
                     actualConcrete = actual.Substring(i);
-                    if (actualConcrete.IndexOf(expectedConcrete) != 0)
+                    if (actualConcrete.UnescapeString().IndexOf(expectedConcrete) != 0)
                     {
-                        throw ThrowLikeException(i, j);
+                        throw ThrowLikeException(j, i);
                     }
                     // Remember we are positioned to consider a concrete, adjust accordingly.
                     deltas = new int[] { expectedConcrete.Length, expectedConcrete.Length };
@@ -242,12 +245,13 @@ namespace Xunit
                 if (tokens is Tuple<char> wildcardToken)
                 {
                     wildcard = wildcardToken.Item1;
-                    k = actual.Substring(i).Length;
-                    if ((wildcard == ExactlyOne && k != 1) || (wildcard == OnePlus && k == 0))
+                    actualConcrete = actual.Substring(i);
+                    if ((wildcard == ExactlyOne && actualConcrete.UnescapeString().Length != 1)
+                        || (wildcard == OnePlus && actualConcrete.UnescapeString().Length == 0))
                     {
-                        throw ThrowLikeException(i, j);
+                        throw ThrowLikeException(j, i);
                     }
-                    deltas = new int[] { k, 1 };
+                    deltas = new int[] { actualConcrete.Length, 1 };
                     continue;
                 }
 
@@ -255,12 +259,13 @@ namespace Xunit
                 {
                     wildcard = wildcardConcreteTokens.Item1;
                     expectedConcrete = wildcardConcreteTokens.Item2;
-                    k = actual.Substring(i).IndexOf(expectedConcrete);
+                    actualConcrete = actual.Substring(i);
+                    k = actualConcrete.UnescapeString().IndexOf(expectedConcrete);
                     if ((wildcard == ExactlyOne && k != 1) || (wildcard == OnePlus && k == 0) || k < 0)
                     {
-                        throw ThrowLikeException(i, j);
+                        throw ThrowLikeException(j, i);
                     }
-                    deltas = new int[] { k + expectedConcrete.Length, expectedConcrete.Length + 1 };
+                    deltas = new int[] { actualConcrete.IndexOf(expectedConcrete), 1 };
                     continue;
                 }
 
@@ -283,7 +288,7 @@ namespace Xunit
             //}
 
             // One or the other not satisfied, throw the exception.
-            throw ThrowLikeException(i, j);
+            throw ThrowLikeException(j, i);
         }
 
         /// <summary>
@@ -311,5 +316,18 @@ namespace Xunit
 
             return actualEx != null ? actual : throw ThrowNotLikeException();
         }
+
+        /// <summary>
+        /// Utility provided enabling the caller to Escape an <paramref name="actual"/>
+        /// <see cref="string"/> concerning its wildcard likeness.
+        /// </summary>
+        /// <param name="actual"></param>
+        /// <returns></returns>
+        /// <see cref="AssertLike(string, string)"/>
+        /// <see cref="AssertNotLike(string, string)"/>
+        public static string EscapeWildcardActual(this string actual)
+            => (from char wildcard in Wildcards select wildcard).Aggregate(actual
+                , (g, wildcard) => g.Replace($"{wildcard}", $"\\{wildcard}")
+            );
     }
 }

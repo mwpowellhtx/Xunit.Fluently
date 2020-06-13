@@ -340,6 +340,64 @@ namespace Xunit
             , MemberData(nameof(AssertNotLikeNoExceptionsTestCases), DisableDiscoveryEnumeration = true)
         ]
         public void Verify_AssertNotLike_NoExceptions(string actual, string unexpectedPattern)
-        => Assert.Equal(actual, actual.AssertNotLike(unexpectedPattern));
+            => Assert.Equal(actual, actual.AssertNotLike(unexpectedPattern));
+
+        /// <summary>
+        /// Returns the test cases informing the <see cref="EscapeWildcardActualTestCases"/>.
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerable<object[]> GetEscapeWildcardActualTestCases()
+        {
+            // In so many words...
+            var casesMultimap = new Dictionary<char, Func<char, string>[]>
+            {
+                { ZeroPlus, GetRange<Func<char, string>>(
+                        x => ""
+                        , x => $"{x}"
+                        , x => $"trailing{x}"
+                        , x => $"{x}leading"
+                        , x => $"embe{x}ded"
+                    ).ToArray() },
+                { OnePlus, GetRange<Func<char, string>>(
+                        x => $"{x}"
+                        , x => $"trailing{x}"
+                        , x => $"{x}leading"
+                        , x => $"embe{x}ded"
+                    ).ToArray() },
+                { ExactlyOne, GetRange<Func<char, string>>(
+                        x => $"{x}"
+                        , x => $"a"
+                    ).ToArray() },
+            };
+
+            var mappedFactories = casesMultimap.SelectMany(mapped => mapped.Value.Select(
+                fact => new { Wildcard = mapped.Key, Factory = fact })).ToArray();
+
+            const string a = "this is a test";
+
+            foreach (var mappedFact in mappedFactories)
+            {
+                var wildcard = mappedFact.Wildcard;
+
+                var actual = $"{a}{mappedFact.Factory(wildcard)}{a}";
+                var expectedPattern = $"{a}{wildcard}{a}";
+
+                yield return GetRange<object>(actual, expectedPattern).ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Informs the data for <see cref="EscapeWildcardActual_Is_Correct(string, string)"/>.
+        /// </summary>
+        public static IEnumerable<object[]> EscapeWildcardActualTestCases { get; } = GetEscapeWildcardActualTestCases().ToArray();
+
+        /// <summary>
+        /// EscapeWildcardActual is verified correctly.
+        /// </summary>
+        [Theory
+            , MemberData(nameof(EscapeWildcardActualTestCases), DisableDiscoveryEnumeration = true)
+        ]
+        public void EscapeWildcardActual_Is_Correct(string actual, string expectedPattern)
+            => actual.EscapeWildcardActual().AssertLike(expectedPattern);
     }
 }
