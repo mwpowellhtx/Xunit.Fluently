@@ -1,26 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Description>Provides a foundation upon which Xunit Theory Class Data may be generated more succinctly.</Description>
-        <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break</PackageTags>
-        <TargetFramework>netstandard1.1</TargetFramework>
-        <RootNamespace>Xunit.Theoretically</RootNamespace>
-        <Version>1.0.1.11556</Version>
-        <AssemblyVersion>1.0.1.11556</AssemblyVersion>
-        <FileVersion>1.0.1.11556</FileVersion>
-        <PackageVersion>1.0.1.11556</PackageVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PropertyGroup>
+        <Description>Provides a foundation upon which Xunit Theory Class Data may be generated more succinctly.</Description>
+        <PackageTags>Ellumination;Technologies;xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break</PackageTags>
+        <TargetFramework>netstandard1.1</TargetFramework>
+        <RootNamespace>Xunit.Theoretically</RootNamespace>
+        <Version>1.0.2.670</Version>
+        <AssemblyVersion>1.0.2.670</AssemblyVersion>
+        <FileVersion>1.0.2.670</FileVersion>
+        <PackageVersion>1.0.2.670</PackageVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
         <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.theoretically.xml</DocumentationFile>
     </PropertyGroup>
 
     <!-- ReSharper disable UnknownProperty -->
     <ItemGroup>
-        <!-- Assumes at least an (in)direct reference to the Core assembly for purposes of furnishing Class Data scaffold.
-        Literally, ClassDataAttribute emits from Xunit.Core, so we take that as our dependency. Otherwise, we make no
-        concrete references within the assembly. -->
+        <!-- Assumes at least an (in)direct reference to the Core assembly for purposes of
+         furnishing Class Data scaffold. Literally, ClassDataAttribute emits from Xunit.Core,
+         so we take that as our dependency. Otherwise, we make no concrete references within
+         the assembly. -->
         <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
     </ItemGroup>
     <!-- ReSharper restore UnknownProperty -->

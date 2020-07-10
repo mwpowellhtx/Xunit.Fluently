@@ -1,18 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Description>Demonstrates usage of the Xunit.Theoretical Test Cases base class.</Description>
-        <PackageTags>xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break;sample</PackageTags>
-        <TargetFramework>netstandard1.1</TargetFramework>
-        <RootNamespace>Xunit.Theoretically</RootNamespace>
-        <Version>1.0.1.11562</Version>
-        <AssemblyVersion>1.0.1.11562</AssemblyVersion>
-        <FileVersion>1.0.1.11562</FileVersion>
-        <PackageVersion>1.0.1.11562</PackageVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PropertyGroup>
+        <Description>Demonstrates usage of the Xunit.Theoretical Test Cases base class.</Description>
+        <PackageTags>Ellumination;Technologies;xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break;sample</PackageTags>
+        <TargetFramework>netstandard1.1</TargetFramework>
+        <RootNamespace>Xunit.Theoretically</RootNamespace>
+        <Version>1.0.2.671</Version>
+        <AssemblyVersion>1.0.2.671</AssemblyVersion>
+        <FileVersion>1.0.2.671</FileVersion>
+        <PackageVersion>1.0.2.671</PackageVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
         <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.theoretically.sample.xml</DocumentationFile>
     </PropertyGroup>
 
