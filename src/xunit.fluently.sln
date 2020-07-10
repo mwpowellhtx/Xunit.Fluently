@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xunit.fluently.assert", "xu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xunit.fluently.theoretically", "xunit.fluently.theoretically\xunit.fluently.theoretically.csproj", "{268B580C-CA49-4A35-A962-2D7E6D061B08}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{603876E0-9003-471B-85BA-1D5B363FC3C1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{603876E0-9003-471B-85BA-1D5B363FC3C1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{225EAC41-1EAF-432B-9014-E99E2DFF96AB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{225EAC41-1EAF-432B-9014-E99E2DFF96AB}"
 	ProjectSection(SolutionItems) = preProject
 		..\docs\Assert.from.Metadata.cs = ..\docs\Assert.from.Metadata.cs
 		Directory.Build.props = Directory.Build.props
@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{22
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD60B359-EEA0-4AAB-B5F0-F17DF68AA5E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BD60B359-EEA0-4AAB-B5F0-F17DF68AA5E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xunit.fluently.assert.exceptionally", "xunit.fluently.assert.exceptionally\xunit.fluently.assert.exceptionally.csproj", "{502133D2-7109-4F85-8AF3-40A17B8D746A}"
 EndProject
