@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Authors>Michael W. Powell</Authors>
-        <Company>Kingdom Software</Company>
+        <Company>Ellumination Technologies</Company>
         <Product>Xunit.Fluently</Product>
         <Copyright>Copyright (c) 2019-2020</Copyright>
         <LangVersion>7.3</LangVersion>
@@ -19,47 +19,54 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PackageProjectUrl>http://github.com/mwpowellhtx/Xunit.Fluently</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/mwpowellhtx/Xunit.Fluently</PackageProjectUrl>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <PropertyGroup>
         <RootNamespace>Xunit</RootNamespace>
         <XunitVersion>2.4.1</XunitVersion>
-        <BumpAssemblyVersionsVersion>1.4.0</BumpAssemblyVersionsVersion>
+        <BumpAssemblyVersionsVersion>1.6.0</BumpAssemblyVersionsVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)">
-            <PrivateAssets>all</PrivateAssets>
+        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)" PrivateAssets="all">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
-        <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions -->
-        <!-- TODO: TBD: Property WhichVersionToBump can be filled in with Major, Minor, Patch, and so on... default is Patch -->
-        <BumpVersionSpec Include="Version" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
-        <BumpVersionSpec Include="AssemblyVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
-        <BumpVersionSpec Include="FileVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
-        <BumpVersionSpec Include="PackageVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')" />
+    <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions -->
+    <!-- TODO: TBD: Property WhichVersionToBump can be filled in with Major, Minor, Patch, and so on... default is Patch -->
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor') And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
 
-        <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
-        <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
-        <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
-        <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch')" />
+    <ItemGroup Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch') And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
 
-        <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
-        <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
-        <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
-        <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)' == 'Debug'" />
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+        <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
     </ItemGroup>
 
     <!-- Ordinarily we put this in the Directory.Build.props, but since we have exceptional
      circumstances for the Packaging, this seems the better spot for it. This really belongs
      in the general Directory Build properties. -->
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+        <PropertyGroup>
+            <NuGetPackageExtension>*.nupkg</NuGetPackageExtension>
+            <_ActualNuGetPackageOutputPath>$(PackageOutputPath)*$(NuGetPackageExtension)</_ActualNuGetPackageOutputPath>
+        </PropertyGroup>
+        <Exec Command="if exist &quot;$(_ActualNuGetPackageOutputPath)&quot; del /f &quot;$(_ActualNuGetPackageOutputPath)&quot;" />
     </Target>
 
 </Project>
