@@ -1,22 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!--<WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Minor</WhichVersionToBump>-->
         <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
     </PropertyGroup>
 
     <PropertyGroup>
         <Description>Provides a set of general purpose Fluent Assertion extension methods methods extending from Xunit.</Description>
+        <PackageTags>Ellumination;Technologies;xunit;fluent;fluently;unary;binary;invocation;;with;return;callback;actual;expected;getter;IEnumerable;IEqualityComparer;Action;comparer;Predicate;collection;substring;ignore;case;Boolean;true;false;value;Contains;All;Any;filter;empty;not;does;equal;precision;strict;same;comparison;string;starts;ends;Regex;regular;expression;expressions;pattern;match;evaluate;success;failure;is;assignable;from;like</PackageTags>
         <TargetFramework>netstandard1.1</TargetFramework>
-        <Version>1.6.1.25345</Version>
-        <AssemblyVersion>1.6.1.25345</AssemblyVersion>
-        <FileVersion>1.6.1.25345</FileVersion>
-        <PackageVersion>1.6.1.25345</PackageVersion>
+        <Version>1.7.0.670</Version>
+        <AssemblyVersion>1.7.0.670</AssemblyVersion>
+        <FileVersion>1.7.0.670</FileVersion>
+        <PackageVersion>1.7.0.670</PackageVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
         <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.assert.xml</DocumentationFile>
     </PropertyGroup>
 
