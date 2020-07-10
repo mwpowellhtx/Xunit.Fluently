@@ -13,8 +13,13 @@ namespace Xunit
     {
         protected abstract Type ClassType { get; }
 
-        private static IEnumerable<object[]> _privateCases;
+        /// <summary>
+        /// Very important that this not be Static. That was causing problems conflicting with
+        /// other test scenarios accidentally listaning in, as it were, to neighboring unit tests.
+        /// </summary>
+        private IEnumerable<object[]> _privateCases;
 
+        /// <inheritdoc/>
         protected override IEnumerable<object[]> Cases
         {
             get
