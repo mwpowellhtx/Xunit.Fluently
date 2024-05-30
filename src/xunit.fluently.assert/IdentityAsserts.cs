@@ -9,9 +9,16 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Same"/>
+        /// <see cref="Assert.Same(object?,object?)"/>
+#if XUNIT_NULLABLE
+        public static object? AssertSame(this object? actual, object? expected)
+#else
         public static object AssertSame(this object actual, object expected)
-            => InvokeBinaryWithReturn(Assert.Same, actual, expected);
+#endif
+        {
+            Assert.Same(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Same as <paramref name="expected"/>.
@@ -19,8 +26,15 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Same"/>
+        /// <see cref="Assert.NotSame(object?,object?)"/>
+#if XUNIT_NULLABLE
+        public static object? AssertNotSame(this object? actual, object? expected)
+#else
         public static object AssertNotSame(this object actual, object expected)
-            => InvokeBinaryWithReturn(Assert.NotSame, actual, expected);
+#endif
+        {
+            Assert.NotSame(expected, actual);
+            return actual;
+        }
     }
 }

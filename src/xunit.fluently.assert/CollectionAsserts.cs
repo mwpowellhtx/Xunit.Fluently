@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 // ReSharper disable once IdentifierTypo
 namespace Xunit
 {
     using Sdk;
+    using System.Linq;
 
     public static partial class FluentlyExtensionMethods
     {
@@ -22,7 +22,10 @@ namespace Xunit
         /// number of Inspectors must match the number of Elements in the Collection exactly.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertCollection<T>(this IEnumerable<T> collection, params Action<T>[] elementInspectors)
-            => InvokeBinaryWithReturn((Action<T>[] i, IEnumerable<T> x) => Assert.Collection(x, i), collection, elementInspectors);
+        {
+            Assert.Collection(collection, elementInspectors);
+            return collection;
+        }
         // ReSharper restore PossibleMultipleEnumeration
 
         /// <summary>
@@ -35,7 +38,10 @@ namespace Xunit
         /// <returns>The <paramref name="collection"/> after having verified it Contains Any elements aligned to the predicate.</returns>
         /// <exception cref="ContainsException">Thrown when at none of the elements match the <paramref name="filter"/>.</exception>
         public static IEnumerable<T> AssertContainsAny<T>(this IEnumerable<T> collection, Predicate<T> filter)
-            => InvokeBinaryWithReturn((Predicate<T> p, IEnumerable<T> x) => Assert.Contains(x, p), collection, filter);
+        {
+            Assert.Contains(collection, filter);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains elements that are All
@@ -47,7 +53,10 @@ namespace Xunit
         /// <returns>The <paramref name="collection"/> after having verified it Contains All elements aligned to the predicate.</returns>
         /// <exception cref="ContainsException">Thrown when at least one of the elements did not match the <paramref name="filter"/>.</exception>
         public static IEnumerable<T> AssertContainsAll<T>(this IEnumerable<T> collection, Predicate<T> filter)
-            => InvokeBinaryWithReturn((Predicate<T> p, IEnumerable<T> x) => Assert.Contains(x, p), collection, filter);
+        {
+            Assert.Contains(collection, filter);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains All of the
@@ -58,7 +67,11 @@ namespace Xunit
         /// <param name="expected">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertContainsAll<T>(this IEnumerable<T> collection, params T[] expected)
-            => expected.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.Contains, g, x));
+            => expected.Aggregate(collection, (g, x) =>
+            {
+                Assert.Contains(x, g);
+                return g;
+            });
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains All of the
@@ -70,7 +83,11 @@ namespace Xunit
         /// <param name="expected">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertContainsAll<T>(this IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expected)
-            => expected.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.Contains, g, x, comparer));
+            => expected.Aggregate(collection, (g, x) =>
+            {
+                Assert.Contains(x, g, comparer);
+                return g;
+            });
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Contains elements matching the
@@ -81,7 +98,10 @@ namespace Xunit
         /// <param name="filter">The Filter to apply during the comparison.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertContains<T>(this IEnumerable<T> collection, Predicate<T> filter)
-            => InvokeCollectionWithReturn(Assert.Contains, collection, filter);
+        {
+            Assert.Contains(collection, filter);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain elements matching
@@ -92,7 +112,10 @@ namespace Xunit
         /// <param name="filter">The Filter to apply during the comparison.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertDoesNotContain<T>(this IEnumerable<T> collection, Predicate<T> filter)
-            => InvokeCollectionWithReturn(Assert.DoesNotContain, collection, filter);
+        {
+            Assert.DoesNotContain(collection, filter);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain Any elements that
@@ -104,7 +127,10 @@ namespace Xunit
         /// <returns>The <paramref name="collection"/> after having verified it Does Not Contain Any elements aligned to the predicate.</returns>
         /// <exception cref="DoesNotContainException">Thrown when at least one element did not match the <paramref name="filter"/>.</exception>
         public static IEnumerable<T> AssertDoesNotContainAny<T>(this IEnumerable<T> collection, Predicate<T> filter)
-            => InvokeCollectionWithReturn(Assert.DoesNotContain, collection, filter);
+        {
+            Assert.DoesNotContain(collection, filter);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain Any of the
@@ -115,7 +141,11 @@ namespace Xunit
         /// <param name="expected">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertDoesNotContainAny<T>(this IEnumerable<T> collection, params T[] expected)
-            => expected.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.DoesNotContain, g, x));
+            => expected.Aggregate(collection, (g, x) =>
+            {
+                Assert.DoesNotContain(x, g);
+                return g;
+            });
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> Does Not Contain Any of the
@@ -127,12 +157,16 @@ namespace Xunit
         /// <param name="expected">The Elements Expected to be in the Collection.</param>
         /// <returns>The <paramref name="collection"/> following successful Assertion.</returns>
         public static IEnumerable<T> AssertDoesNotContainAny<T>(this IEnumerable<T> collection, IEqualityComparer<T> comparer, params T[] expected)
-            => expected.Aggregate(collection, (g, x) => InvokeCollectionWithReturn(Assert.DoesNotContain, g, x, comparer));
+            => expected.Aggregate(collection, (g, x) =>
+            {
+                Assert.DoesNotContain(x, g, comparer);
+                return g;
+            });
 
-        // TODO: TBD: public static TValue Contains<TKey, TValue>(TKey expected, IReadOnlyDictionary<TKey, TValue> collection)
-        // TODO: TBD: public static TValue Contains<TKey, TValue>(TKey expected, IDictionary<TKey, TValue> collection)
-        // TODO: TBD: public static void DoesNotContain<TKey, TValue>(TKey expected, IReadOnlyDictionary<TKey, TValue> collection)
-        // TODO: TBD: public static void DoesNotContain<TKey, TValue>(TKey expected, IDictionary<TKey, TValue> collection)
+        // TODO: public static TValue Contains<TKey, TValue>(TKey expected, IReadOnlyDictionary<TKey, TValue> collection)
+        // TODO: public static TValue Contains<TKey, TValue>(TKey expected, IDictionary<TKey, TValue> collection)
+        // TODO: public static void DoesNotContain<TKey, TValue>(TKey expected, IReadOnlyDictionary<TKey, TValue> collection)
+        // TODO: public static void DoesNotContain<TKey, TValue>(TKey expected, IDictionary<TKey, TValue> collection)
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> is Empty.
@@ -143,7 +177,10 @@ namespace Xunit
         /// <see cref="Assert.Empty"/>
         public static T AssertCollectionEmpty<T>(this T collection)
             where T : IEnumerable
-            => InvokeUnaryWithReturn(x => Assert.Empty(x), collection);
+        {
+            Assert.Empty(collection);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that the <paramref name="collection"/> is Not Empty.
@@ -154,7 +191,10 @@ namespace Xunit
         /// <see cref="Assert.NotEmpty"/>
         public static T AssertCollectionNotEmpty<T>(this T collection)
             where T : IEnumerable
-            => InvokeUnaryWithReturn(x => Assert.NotEmpty(x), collection);
+        {
+            Assert.NotEmpty(collection);
+            return collection;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -163,9 +203,16 @@ namespace Xunit
         /// <param name="actual">The Actual collection being inspected.</param>
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?)"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected)
+#else
         public static IEnumerable<T> AssertCollectionEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
+#endif
+        {
+            Assert.Equal(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -175,9 +222,16 @@ namespace Xunit
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <param name="comparer">An Equality Comparer used during inspection.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected, IEqualityComparer<T> comparer)
+#else
         public static IEnumerable<T> AssertCollectionEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected, comparer);
+#endif
+        {
+            Assert.Equal(expected, actual, comparer);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -186,9 +240,21 @@ namespace Xunit
         /// <param name="actual">The Actual collection being inspected.</param>
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?)"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionEqual<T>(this IEnumerable<T>? actual, params T[]? expected)
+#else
         public static IEnumerable<T> AssertCollectionEqual<T>(this IEnumerable<T> actual, params T[] expected)
-            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
+#endif
+        {
+
+#if XUNIT_NULLABLE
+            GuardArgumentNotNull(nameof(expected), expected);
+#endif
+
+            Assert.Equal(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -198,9 +264,21 @@ namespace Xunit
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <param name="comparer">An Equality Comparer used during inspection.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionEqual<T>(this IEnumerable<T>? actual, IEqualityComparer<T> comparer, params T[]? expected)
+#else
         public static IEnumerable<T> AssertCollectionEqual<T>(this IEnumerable<T> actual, IEqualityComparer<T> comparer, params T[] expected)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected, comparer);
+#endif
+        {
+
+#if XUNIT_NULLABLE
+            GuardArgumentNotNull(nameof(expected), expected);
+#endif
+
+            Assert.Equal(expected, actual, comparer);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -209,9 +287,16 @@ namespace Xunit
         /// <param name="actual">The Actual collection being inspected.</param>
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T})"/>
+        /// <see cref="Assert.NotEqual{T}(IEnumerable{T}?,IEnumerable{T}?)"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionNotEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected)
+#else
         public static IEnumerable<T> AssertCollectionNotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
+#endif
+        {
+            Assert.NotEqual(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -221,9 +306,16 @@ namespace Xunit
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <param name="comparer">An Equality Comparer used during inspection.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionNotEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected, IEqualityComparer<T> comparer)
+#else
         public static IEnumerable<T> AssertCollectionNotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected, comparer);
+#endif
+        {
+            Assert.NotEqual(expected, actual, comparer);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -232,25 +324,49 @@ namespace Xunit
         /// <param name="actual">The Actual collection being inspected.</param>
         /// <param name="expected">The Expected collection being inspected.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T})"/>
+        /// <see cref="Assert.NotEqual{T}(IEnumerable{T}?,IEnumerable{T}?)"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionNotEqual<T>(this IEnumerable<T>? actual, params T[]? expected)
+#else
         public static IEnumerable<T> AssertCollectionNotEqual<T>(this IEnumerable<T> actual, params T[] expected)
-            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
+#endif
+        {
+
+#if XUNIT_NULLABLE
+            GuardArgumentNotNull(nameof(expected), expected);
+#endif
+
+            Assert.NotEqual(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
         /// </summary>
         /// <typeparam name="T">The Type of the Elements in the collections.</typeparam>
         /// <param name="actual">The Actual collection being inspected.</param>
-        /// <param name="expected">The Expected collection being inspected.</param>
         /// <param name="comparer">An Equality Comparer used during inspection.</param>
+        /// <param name="expected">The Expected collection being inspected.</param>
         /// <returns>The <paramref name="actual"/> collection following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertCollectionNotEqual<T>(this IEnumerable<T>? actual, IEqualityComparer<T> comparer, params T[]? expected)
+#else
         public static IEnumerable<T> AssertCollectionNotEqual<T>(this IEnumerable<T> actual, IEqualityComparer<T> comparer, params T[] expected)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected, comparer);
+#endif
+        {
 
-        // TODO: TBD: public static object Single(IEnumerable collection)
-        // TODO: TBD: public static void Single(IEnumerable collection, object expected)
-        // TODO: TBD: public static T Single<T>(IEnumerable<T> collection)
-        // TODO: TBD: public static T Single<T>(IEnumerable<T> collection, Predicate<T> predicate)
+#if XUNIT_NULLABLE
+            GuardArgumentNotNull(nameof(expected), expected);
+#endif
+
+            Assert.NotEqual(expected, actual, comparer);
+            return actual;
+        }
+
+        // TODO: public static object Single(IEnumerable collection)
+        // TODO: public static void Single(IEnumerable collection, object expected)
+        // TODO: public static T Single<T>(IEnumerable<T> collection)
+        // TODO: public static T Single<T>(IEnumerable<T> collection, Predicate<T> predicate)
     }
 }

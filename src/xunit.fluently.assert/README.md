@@ -1,5 +1,9 @@
 ## Xunit.Fluently.Assert
 
+```xml
+<PackageReferences Include="xunit.fluently.assert" Version="latest" />
+```
+
 We will document interesting points about each project in their respective project folders from now on.
 
 ### Added `AssertLike` and `AssertNotLike`

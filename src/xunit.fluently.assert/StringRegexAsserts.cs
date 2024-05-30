@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Xunit
@@ -22,8 +20,12 @@ namespace Xunit
         /// </summary>
         /// <param name="actual">The actual <see cref="Match"/> under consideration.</param>
         /// <param name="evaluate">The functional callback used to evaluate the <paramref name="actual"/> match.</param>
-        public static void AssertRegexMatch(this Match actual, Func<Match, bool> evaluate)
-            => evaluate.AssertNotNull().Invoke(actual).AssertTrue();
+        public static Match AssertRegexMatch(this Match actual, Func<Match, bool> evaluate)
+        {
+            Assert.NotNull(evaluate);
+            evaluate(actual);
+            return actual;
+        }
 
         /// <summary>
         /// Asserts that the <paramref name="actual"/> <see cref="string"/> Succeeds in matching
