@@ -41,16 +41,13 @@ namespace Xunit
         {
             var actualString = File.ReadAllText(path.AssertFileExists());
 
-            // ReSharper disable SwitchStatementMissingSomeCases
-            switch (comparison)
+            if (comparison is null)
             {
-                case null:
-                    Assert.Contains(expectedSubstring, actualString);
-                    break;
-
-                default:
-                    Assert.Contains(expectedSubstring, actualString, comparison.Value);
-                    break;
+                Assert.Contains(expectedSubstring, actualString);
+            }
+            else
+            {
+                Assert.Contains(expectedSubstring, actualString, comparison.Value);
             }
 
             return path;
@@ -69,17 +66,14 @@ namespace Xunit
         {
             var actualString = File.ReadAllText(path.AssertFileExists());
 
-            switch (comparison)
+            if (comparison is null)
             {
-                case null:
-                    Assert.DoesNotContain(expectedSubstring, actualString);
-                    break;
-
-                default:
-                    Assert.DoesNotContain(expectedSubstring, actualString, comparison.Value);
-                    break;
+                Assert.DoesNotContain(expectedSubstring, actualString);
             }
-            // ReSharper restore SwitchStatementMissingSomeCases
+            else
+            {
+                Assert.DoesNotContain(expectedSubstring, actualString, comparison.Value);
+            }
 
             return path;
         }
