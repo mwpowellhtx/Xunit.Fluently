@@ -1,0 +1,15 @@
+<Project>
+
+    <PropertyGroup>
+        <ReadmeFile>README.md</ReadmeFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="Exists('$(ReadmeFile)')">
+        <PackageReadmeFile>$(ReadmeFile)</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup Condition="Exists('$(ReadmeFile)')">
+        <None Include="$(ReadmeFile)" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>
