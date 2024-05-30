@@ -205,6 +205,7 @@ namespace Xunit
             {
                 { ExactlyOne, GetRange<Func<string>>(Ch).ToArray() },
                 { OnePlus, GetRange<Func<string>>(Ch, Str).ToArray() },
+                // GetRange generic implicit, verbose here for readability
                 { ZeroPlus, GetRange<Func<string>>(Empty, Ch, Str).ToArray() }
             };
 
@@ -215,7 +216,7 @@ namespace Xunit
 
             foreach (var fact in manyFacts)
             {
-                // Wildcard embedded.
+                // Embedded wildcard.
                 yield return GetRange<object>($"{s}{fact.Factory.Invoke()}{s}", $"{s}{fact.Wildcard}{s}").ToArray();
 
                 // Trailing wildcard.
@@ -252,19 +253,19 @@ namespace Xunit
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> asserts Not Like
-        /// <paramref name="unexpectedPattern"/> with exception.
+        /// <paramref name="expectedPattern"/> with exception.
         /// </summary>
         /// <param name="actual"></param>
-        /// <param name="unexpectedPattern"></param>
+        /// <param name="expectedPattern"></param>
         [Theory
             , MemberData(nameof(AssertNotLikeWithExceptionsTestCases), DisableDiscoveryEnumeration = true)
         ]
-        public void Verify_AssertNotLike_WithExceptions(string actual, string unexpectedPattern)
+        public void Verify_AssertNotLike_WithExceptions(string actual, string expectedPattern)
         {
-            var ex = Assert.Throws<NotLikeException>(() => actual.AssertNotLike(unexpectedPattern));
+            var ex = Assert.Throws<NotLikeException>(() => actual.AssertNotLike(expectedPattern));
             Assert.Equal(actual, ex.Actual);
-            // The xUnit Sdk decorates the expected string...
-            Assert.Equal($"Not {unexpectedPattern}", ex.Expected);
+            // The xUnit Sdk has shifted gears a bit, this is now using a revised Exception taxonomy.
+            Assert.Equal($"Not {expectedPattern}", ex.Expected);
         }
 
         /// <summary>
@@ -319,9 +320,12 @@ namespace Xunit
         ]
         public void Verify_AssertLike_WithExceptions(string actual, string expectedPattern)
         {
+            var ex2 = EqualException.ForMismatchedValues("test", "tast");
+
             var ex = Assert.Throws<LikeException>(() => Assert.Equal(actual, actual.AssertLike(expectedPattern)));
             Assert.Equal(actual, ex.Actual);
-            Assert.Equal(expectedPattern, ex.Expected);
+            // Ditto revised Exception taxonomy
+            Assert.Equal($"Not {expectedPattern}", ex.Expected);
         }
 
         /// <summary>
