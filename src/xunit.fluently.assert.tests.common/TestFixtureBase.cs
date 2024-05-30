@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 // ReSharper disable once IdentifierTypo
 namespace Xunit
 {
     using Abstractions;
-    using System.Collections.Generic;
 
     /// <inheritdoc />
     public abstract class TestFixtureBase : IDisposable
