@@ -302,7 +302,12 @@ namespace Xunit
         /// <see cref="AssertLike(string, string)"/>
         public static string AssertNotLike(this string actual, string expectedPattern)
         {
+
+#if XUNIT_NULLABLE
             Exception? actualEx = null;
+#else
+            Exception actualEx = null;
+#endif
 
             try
             {

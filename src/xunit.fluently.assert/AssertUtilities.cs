@@ -1,5 +1,8 @@
 ﻿using System;
+
+#if XUNIT_NULLABLE
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Xunit
 {

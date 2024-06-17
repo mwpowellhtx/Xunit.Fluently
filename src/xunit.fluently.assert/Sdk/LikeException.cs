@@ -4,7 +4,6 @@ using System.Reflection;
 namespace Xunit.Sdk
 {
     using static WildcardException;
-    using static WildcardlyStringExtensionMethods;
 
 #if XUNIT_VISIBILITY_INTERNAL
     internal
@@ -17,12 +16,19 @@ namespace Xunit.Sdk
         /// <summary>
         /// 
         /// </summary>
+#if XUNIT_NULLABLE
         private static MethodInfo? _method;
+#else
+        private static MethodInfo _method;
+#endif
 
         /// <summary>
-        /// 
+        /// Gets the Method for which we are reporting.
         /// </summary>
-        private static MethodInfo Method => _method ??= GetSourceMethodCandidate(x => x.Name.Equals(nameof(WildcardlyStringExtensionMethods.AssertLike), StringComparison.InvariantCultureIgnoreCase));
+        /// <remarks>
+        /// Note that we do so via Reflection.
+        /// </remarks>
+        private static MethodInfo Method => _method ??= GetSourceMethodCandidate(x => x.Name.ToLower() == nameof(WildcardlyStringExtensionMethods.AssertLike).ToLower());
 
         /// <summary>
         /// <see cref="Reason.alike"/>

@@ -1,33 +1,9 @@
-## Xunit.Fluently.Assert
+You are here (&#x2611;), including a cross reference to our other fluent _xUnit_ extension packages.
 
-```xml
-<PackageReferences Include="xunit.fluently.assert" Version="latest" />
-```
-
-We will document interesting points about each project in their respective project folders from now on.
-
-### Added `AssertLike` and `AssertNotLike`
-
-CSharp itself does not support a `Like` operator in the same way that Visual Basic or Structured Query Language (SQL) do. Also, unfortunately, we cannot utilize the [Visual Basic](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualbasic.compilerservices.likeoperator) `dotnet` assemblies aligned with the `netstandard` target because the Like operator is not implemented there, either.
-
-So we found ourselves implementing a custom Assertion called `AssertLike` and `AssertNotLike`, for instance:
-
-```C#
-const string some = "some fantastic pattern";
-const string another = "another obscure pattern";
-const string pattern = "some * pattern";
-// ...
-some.AssertLike(pattern);
-// or...
-another.AssertNotLike(pattern);
-```
-
-With support for wildcard characters in ascending precendence, or strength, if you will.
-
-| Wildcard | Description |
-| -------- | ----------- |
-| * | Zero or more characters expected. This is the weakest of them all. |
-| + | One or more characters expected. Similar to Zero or more, but with the stipulation of at least one. |
-| ? | Exactly one character expected. This is the strongest wildcard of them all before at most one character is allowed. |
-
-Possible future directions for this feature is to reduce one or more discovered wildcards according to their precedence.
+|Current|NuGet|Description|
+|---|---|---|
+|&#x2611;|![xunit.fluently.assert](https://img.shields.io/nuget/v/xunit.fluently.assert?label=xunit.fluently.assert)|Base fluent assertions extending _xUnit_ behavior.|
+||![xunit.fluently.assert.exceptionally](https://img.shields.io/nuget/v/xunit.fluently.assert.exceptionally?label=xunit.fluently.assert.exceptionally)|Fluent `Exception` oriented extensions.|
+||![xunit.fluently.assert.ioly](https://img.shields.io/nuget/v/xunit.fluently.assert.ioly?label=xunit.fluently.assert.ioly)|I/O based fluent extensions.|
+||![xunit.fluently.theoretically](https://img.shields.io/nuget/v/xunit.fluently.theoretically?label=xunit.fluently.theoretically)|_Theory_ based fluent extensions, including the ability to specify sets of theoretical test cases.|
+||![xunit.fluently.theoretically.sample](https://img.shields.io/nuget/v/xunit.fluently.theoretically.sample?label=xunit.fluently.theoretically.sample)|Sample use case how demonstrating _Theory_ based fluent extensions.|

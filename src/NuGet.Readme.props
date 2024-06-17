@@ -1,6 +1,7 @@
 <Project>
 
     <PropertyGroup>
+        <!-- Paths relative to the project importing the build properties. -->
         <ReadmeFile>README.md</ReadmeFile>
     </PropertyGroup>
 

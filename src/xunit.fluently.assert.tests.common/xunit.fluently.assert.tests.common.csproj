@@ -1,21 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>1.0.0.25384</Version>
-        <AssemblyVersion>1.0.0.25384</AssemblyVersion>
-        <FileVersion>1.0.0.25384</FileVersion>
-        <PackageVersion>1.0.0.25384</PackageVersion>
+        <!-- TODO: for use with unit tests, including appropriate test assets, etc. -->
+        <FluentUnitTests>true</FluentUnitTests>
     </PropertyGroup>
 
-    <!-- ReSharper disable UnknownProperty -->
-    <ItemGroup>
-        <PackageReference Include="xunit" Version="$(XunitVersion)" />
-    </ItemGroup>
+    <PropertyGroup>
+        <Version>1.0.0.25485</Version>
+        <AssemblyVersion>1.0.0.25485</AssemblyVersion>
+        <FileVersion>1.0.0.25485</FileVersion>
+        <PackageVersion>1.0.0.25485</PackageVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- TODO: will have to see how this one works -->
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\xunit.fluently.assert\xunit.fluently.assert.csproj" />
         <ProjectReference Include="..\xunit.fluently.theoretically\xunit.fluently.theoretically.csproj" />
     </ItemGroup>
-    <!-- ReSharper restore UnknownProperty -->
 
 </Project>

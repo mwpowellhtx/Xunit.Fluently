@@ -1,33 +1,66 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- TODO: holding fast on the CSPROJ files and .PROPS in review, tomrrow -->
+    <!-- TODO: 1. what version(s) of xunit whatever are we deploying against, and where -->
+    <!-- TODO: 2. review target frameworks, what makes the most sense, we think for instance so much of it depends on which NULLABLE support we wish to accommodate throughout -->
+    <!-- TODO: 3. we should also consult against xunit package targets, and may do a similar targeting there, when possible -->
+    <!-- TODO: 4. bare minimum from netstandard1.5 to whatever, netstandard2.1, we think, when nullable is involved -->
+    <!-- TODO: 5.. but otherwise, netstandard1.1 base, netstandard1.3 when the IO is involved, and so on -->
+    <!-- TODO: 5. need to sweep the versions throughout and ensure we are on a sane versioning schedule, in debug, as well as release, prior to packaging -->
+
+    <!-- TODO: question remains a bit open, weighing AB comparison, why do we need/want xunit.assert.source -->
+    <!-- TODO: as compared contrasted with xunit.core xunit.assert dependencies -->
+    <!-- TODO: seems like bloat going on, then also what do we do about internals, make them visible to the other fluently projects (?) -->
+    <!-- https://github.com/xunit/xunit/issues/2937 -->
+    <PropertyGroup>
+        <!-- TODO: may factor this instead as a packaging step -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WhichVersionToBump Condition="'$(Configuration)' == 'Debug'">Minor</WhichVersionToBump>
+        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
+    </PropertyGroup>
 
     <PropertyGroup>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <!--<WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Minor</WhichVersionToBump>-->
-        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
+        <!-- TODO: Including these in order to ensure that we are properly documented throughout and not leaving
+            gaps. These are especially problematic when trying to mix them among #if/else/endif PP blocks.
+            Compiler Warning (level 1) CS1574 / XML comment on 'construct' has syntactically incorrect cref attribute 'name'
+            Compiler Warning (level 2) CS1587 / XML comment is not placed on a valid language element
+            # https://learn.microsoft.com/en-us/dotnet/csharp/misc/cs1574
+            # https://learn.microsoft.com/en-us/dotnet/csharp/misc/cs1587
+          -->
+        <WarningsAsErrors>CS1574;CS1587</WarningsAsErrors>
     </PropertyGroup>
 
     <PropertyGroup>
         <Description>Provides a set of general purpose Fluent Assertion extension methods methods extending from Xunit.</Description>
         <PackageTags>Ellumination;Technologies;xunit;fluent;fluently;unary;binary;invocation;;with;return;callback;actual;expected;getter;IEnumerable;IEqualityComparer;Action;comparer;Predicate;collection;substring;ignore;case;Boolean;true;false;value;Contains;All;Any;filter;empty;not;does;equal;precision;strict;same;comparison;string;starts;ends;Regex;regular;expression;expressions;pattern;match;evaluate;success;failure;is;assignable;from;like</PackageTags>
-        <TargetFramework>netstandard1.1</TargetFramework>
-        <Version>1.7.0.670</Version>
-        <AssemblyVersion>1.7.0.670</AssemblyVersion>
-        <FileVersion>1.7.0.670</FileVersion>
-        <PackageVersion>1.7.0.670</PackageVersion>
+        <!-- We are trying to maintain the basest netstandard level of support; however,
+            owing to Type.GetMethod(s) methods, it was unavoidable the we needed to raise
+            the bar slightly from netstandard2.0; Reflection, BindingFlags also required
+            netstandard1.5+. -->
+        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+        <Version>1.7.0.715</Version>
+        <AssemblyVersion>1.7.0.715</AssemblyVersion>
+        <FileVersion>1.7.0.715</FileVersion>
+        <PackageVersion>1.7.0.715</PackageVersion>
+    </PropertyGroup>
+
+    <!-- Must do the Condition at the group level in this case, because Nullable does not support Condition. -->
+    <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+        <Nullable>enable</Nullable>
+        <DefineConstants>XUNIT_NULLABLE</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
-        <DocumentationFile>bin\$(Configuration)\netstandard1.1\xunit.fluently.assert.xml</DocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\xunit.fluently.assert.xml</DocumentationFile>
     </PropertyGroup>
 
-    <!-- ReSharper disable UnknownProperty -->
     <ItemGroup>
-        <PackageReference Include="xunit.assert" Version="$(XunitVersion)" />
+        <PackageReference Include="xunit" Version="$(XunitVersion)" />
     </ItemGroup>
-    <!-- ReSharper restore UnknownProperty -->
 
-    <Import Project="..\Licensing.props" />
+    <Import Project="..\NuGet.Readme.props" />
+    <Import Project="..\NuGet.License.props" />
+    <Import Project="..\NuGet.Packaging.props" />
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">

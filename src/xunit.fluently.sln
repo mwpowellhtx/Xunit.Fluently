@@ -13,11 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{225EAC41-1
 	ProjectSection(SolutionItems) = preProject
 		..\docs\Assert.from.Metadata.cs = ..\docs\Assert.from.Metadata.cs
 		Directory.Build.props = Directory.Build.props
-		Licensing.props = Licensing.props
+		..\LICENSE = ..\LICENSE
 		NuGet.Config = NuGet.Config
 		NuGet.Packaging.props = NuGet.Packaging.props
-		PackageReadme.props = PackageReadme.props
+		NuGet.License.props = NuGet.License.props
 		tools\NuGet\publish.cmd = tools\NuGet\publish.cmd
+		NuGet.Readme.props = NuGet.Readme.props
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

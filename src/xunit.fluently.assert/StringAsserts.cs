@@ -155,7 +155,7 @@ namespace Xunit
             , bool ignoreWhiteSpaceDifferences = false
             , bool ignoreAllWhiteSpaces = false)
 #else
-        public static string? AssertEqual(this string actual
+        public static string AssertEqual(this string actual
             , string expected
             , bool ignoreCase = false
             , bool ignoreLineEndingDifferences = false
