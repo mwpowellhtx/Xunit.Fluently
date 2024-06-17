@@ -10,10 +10,10 @@
         <Description>Provides a set of Exception oriented extension methods methods extending from Xunit.</Description>
         <PackageTags>Ellumination;Technologies;xunit;fluent;fluently;throw;throws;Exception;Action;Any;Async;Task;future;Type:Verify;actual;expected</PackageTags>
         <TargetFrameworks>netstandard1.1</TargetFrameworks>
-        <Version>1.0.2.684</Version>
-        <AssemblyVersion>1.0.2.684</AssemblyVersion>
-        <FileVersion>1.0.2.684</FileVersion>
-        <PackageVersion>1.0.2.684</PackageVersion>
+        <Version>1.0.3.878</Version>
+        <AssemblyVersion>1.0.3.878</AssemblyVersion>
+        <FileVersion>1.0.3.878</FileVersion>
+        <PackageVersion>1.0.3.878</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">

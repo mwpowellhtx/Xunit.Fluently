@@ -38,10 +38,10 @@
             the bar slightly from netstandard2.0; Reflection, BindingFlags also required
             netstandard1.5+. -->
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-        <Version>1.7.0.715</Version>
-        <AssemblyVersion>1.7.0.715</AssemblyVersion>
-        <FileVersion>1.7.0.715</FileVersion>
-        <PackageVersion>1.7.0.715</PackageVersion>
+        <Version>1.7.1.878</Version>
+        <AssemblyVersion>1.7.1.878</AssemblyVersion>
+        <FileVersion>1.7.1.878</FileVersion>
+        <PackageVersion>1.7.1.878</PackageVersion>
     </PropertyGroup>
 
     <!-- Must do the Condition at the group level in this case, because Nullable does not support Condition. -->

@@ -10,10 +10,10 @@
         <PackageTags>Ellumination;Technologies;xunit;theory;class;data;enumerable;IEnumerable;object;array;test;cases;base;enumerator;private;get;all;yield;break;sample</PackageTags>
         <TargetFrameworks>netstandard1.1</TargetFrameworks>
         <RootNamespace>Xunit.Theoretically</RootNamespace>
-        <Version>1.0.2.677</Version>
-        <AssemblyVersion>1.0.2.677</AssemblyVersion>
-        <FileVersion>1.0.2.677</FileVersion>
-        <PackageVersion>1.0.2.677</PackageVersion>
+        <Version>1.0.3.878</Version>
+        <AssemblyVersion>1.0.3.878</AssemblyVersion>
+        <FileVersion>1.0.3.878</FileVersion>
+        <PackageVersion>1.0.3.878</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
