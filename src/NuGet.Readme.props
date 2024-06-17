@@ -1,0 +1,16 @@
+<Project>
+
+    <PropertyGroup>
+        <!-- Paths relative to the project importing the build properties. -->
+        <ReadmeFile>README.md</ReadmeFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="Exists('$(ReadmeFile)')">
+        <PackageReadmeFile>$(ReadmeFile)</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup Condition="Exists('$(ReadmeFile)')">
+        <None Include="$(ReadmeFile)" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>

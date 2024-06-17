@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30128.74
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xunit.fluently.assert", "xunit.fluently.assert\xunit.fluently.assert.csproj", "{0B63EE37-8A5A-4A6C-89C7-8CD5BCDE7AAB}"
 EndProject
@@ -13,10 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{225EAC41-1
 	ProjectSection(SolutionItems) = preProject
 		..\docs\Assert.from.Metadata.cs = ..\docs\Assert.from.Metadata.cs
 		Directory.Build.props = Directory.Build.props
-		Licensing.props = Licensing.props
+		..\LICENSE = ..\LICENSE
 		NuGet.Config = NuGet.Config
 		NuGet.Packaging.props = NuGet.Packaging.props
+		NuGet.License.props = NuGet.License.props
 		tools\NuGet\publish.cmd = tools\NuGet\publish.cmd
+		NuGet.Readme.props = NuGet.Readme.props
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

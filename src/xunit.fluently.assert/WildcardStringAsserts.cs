@@ -195,8 +195,10 @@ namespace Xunit
         /// <returns></returns>
         public static string AssertLike(this string actual, string expectedPattern)
         {
+            // TODO: was throwing EqualException return type here previous...
+            // TODO: will need to see how this one works...
             // Thrown when the wildcards reject the actual string for any reason.
-            EqualException ThrowLikeException(int expectedIndex, int actualIndex) => new LikeException(
+            WildcardException ThrowLikeException(int expectedIndex, int actualIndex) => new LikeException(
                 expectedPattern, actual, expectedIndex, actualIndex
             );
 
@@ -295,16 +297,21 @@ namespace Xunit
         /// Analogous to <see cref="AssertLike(string, string)"/>, but rather Not Like.
         /// </summary>
         /// <param name="actual">The actual <see cref="string"/> under consideration.</param>
-        /// <param name="unexpectedPattern">The unexpectedPattern which is expected not to match.</param>
+        /// <param name="expectedPattern">The expected pattern which is expected not to match.</param>
         /// <returns></returns>
         /// <see cref="AssertLike(string, string)"/>
-        public static string AssertNotLike(this string actual, string unexpectedPattern)
+        public static string AssertNotLike(this string actual, string expectedPattern)
         {
+
+#if XUNIT_NULLABLE
+            Exception? actualEx = null;
+#else
             Exception actualEx = null;
+#endif
 
             try
             {
-                actual.AssertLike(unexpectedPattern);
+                actual.AssertLike(expectedPattern);
             }
             catch (LikeException lex)
             {
@@ -312,9 +319,9 @@ namespace Xunit
                 actualEx = lex;
             }
 
-            NotLikeException ThrowNotLikeException() => throw new NotLikeException(unexpectedPattern, actual);
+            NotLikeException ThrowNotLikeException() => new(expectedPattern, actual);
 
-            return actualEx != null ? actual : throw ThrowNotLikeException();
+            return actualEx is not null ? actual : throw ThrowNotLikeException();
         }
 
         /// <summary>

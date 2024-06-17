@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#if XUNIT_NULLABLE
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 // ReSharper disable once IdentifierTypo
 namespace Xunit
 {
@@ -17,7 +21,10 @@ namespace Xunit
         /// <returns></returns>
         /// <see cref="Assert.Equal(double,double,int)"/>
         public static double AssertEqual(this double actual, double expected, int precision)
-            => InvokeBinaryWithReturn<double>((e, a) => Assert.Equal(e, a, precision), actual, expected);
+        {
+            Assert.Equal(expected, actual, precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/> given
@@ -29,7 +36,10 @@ namespace Xunit
         /// <returns></returns>
         /// <see cref="Assert.Equal(decimal,decimal,int)"/>
         public static decimal AssertEqual(this decimal actual, decimal expected, int precision)
-            => InvokeBinaryWithReturn<decimal>((e, a) => Assert.Equal(e, a, precision), actual, expected);
+        {
+            Assert.Equal(expected, actual, precision);
+            return actual;
+        }
 
         // ReSharper disable RedundantTypeArgumentsOfMethod
         /// <summary>
@@ -39,9 +49,16 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(T,T)"/>
+        /// <see cref="Assert.Equal{T}(T, T)"/>
+#if XUNIT_NULLABLE
+        public static T? AssertEqual<T>([AllowNull] this T actual, [AllowNull] T expected)
+#else
         public static T AssertEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
+#endif
+        {
+            Assert.Equal(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -52,8 +69,15 @@ namespace Xunit
         /// <param name="comparer">The Comparer used to Compare the two objects.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.Equal{T}(T,T,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static T? AssertEqual<T>([AllowNull] this T actual, [AllowNull] T expected, IEqualityComparer<T?> comparer)
+#else
         public static T AssertEqual<T>(this T actual, T expected, IEqualityComparer<T> comparer)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected, comparer);
+#endif
+        {
+            Assert.Equal(expected, actual, comparer);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that the <typeparamref name="TExpected"/> thing behind the
@@ -66,8 +90,15 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <param name="getter">A functional Getter helper.</param>
         /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertEqual<T, TExpected>([AllowNull] this T actual, [AllowNull] TExpected expected, Func<T?, TExpected?> getter)
+#else
         public static T AssertEqual<T, TExpected>(this T actual, TExpected expected, Func<T, TExpected> getter)
-            => InvokeExpectedWithReturn(Assert.Equal, actual, expected, getter);
+#endif
+        {
+            Assert.Equal(expected, getter(actual));
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that the <see cref="double"/> thing behind the <paramref name="actual"/>
@@ -80,8 +111,15 @@ namespace Xunit
         /// <param name="precision">The Precision for use during the Floating Point comparison.</param>
         /// <param name="getter">A functional Getter helper.</param>
         /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertEqual<T>([AllowNull] this T actual, double expected, int precision, Func<T?, double> getter)
+#else
         public static T AssertEqual<T>(this T actual, double expected, int precision, Func<T, double> getter)
-            => InvokeExpectedWithReturn((e, a) => Assert.Equal(e, a, precision), actual, expected, getter);
+#endif
+        {
+            Assert.Equal(expected, getter(actual), precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that the <see cref="decimal"/> thing behind the <paramref name="actual"/>
@@ -94,8 +132,15 @@ namespace Xunit
         /// <param name="precision">The Precision for use during the Floating Point comparison.</param>
         /// <param name="getter">A functional Getter helper.</param>
         /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertEqual<T>([AllowNull] this T actual, decimal expected, int precision, Func<T?, decimal> getter)
+#else
         public static T AssertEqual<T>(this T actual, decimal expected, int precision, Func<T, decimal> getter)
-            => InvokeExpectedWithReturn((e, a) => Assert.Equal(e, a, precision), actual, expected, getter);
+#endif
+        {
+            Assert.Equal(expected, getter(actual), precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equals <paramref name="expected"/>
@@ -106,7 +151,10 @@ namespace Xunit
         /// <param name="precision">The Precision for use during the Floating Point comparison.</param>
         /// <returns></returns>
         public static double AssertNotEqual(this double actual, double expected, int precision)
-            => InvokeBinaryWithReturn<double>((e, a) => Assert.NotEqual(e, a, precision), actual, expected);
+        {
+            Assert.NotEqual(expected, actual, precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equals <paramref name="expected"/>
@@ -117,7 +165,10 @@ namespace Xunit
         /// <param name="precision">The Precision for use during the Floating Point comparison.</param>
         /// <returns></returns>
         public static decimal AssertNotEqual(this decimal actual, decimal expected, int precision)
-            => InvokeBinaryWithReturn<decimal>((e, a) => Assert.NotEqual(e, a, precision), actual, expected);
+        {
+            Assert.NotEqual(expected, actual, precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -127,8 +178,15 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.NotEqual{T}(T,T)"/>
+#if XUNIT_NULLABLE
+        public static T? AssertNotEqual<T>([AllowNull] this T actual, [AllowNull] T expected)
+#else
         public static T AssertNotEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
+#endif
+        {
+            Assert.NotEqual(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -139,8 +197,15 @@ namespace Xunit
         /// <param name="comparer">The Comparer used to Compare the two objects.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
         /// <see cref="Assert.NotEqual{T}(T,T,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static T? AssertNotEqual<T>([AllowNull] this T actual, [AllowNull] T expected, IEqualityComparer<T?> comparer)
+#else
         public static T AssertNotEqual<T>(this T actual, T expected, IEqualityComparer<T> comparer)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected, comparer);
+#endif
+        {
+            Assert.NotEqual(expected, actual, comparer);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that the <typeparamref name="TExpected"/> thing behind the
@@ -153,8 +218,15 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <param name="getter">A functional Getter helper.</param>
         /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertNotEqual<T, TExpected>([AllowNull] this T actual, [AllowNull] TExpected expected, Func<T?, TExpected?> getter)
+#else
         public static T AssertNotEqual<T, TExpected>(this T actual, TExpected expected, Func<T, TExpected> getter)
-            => InvokeExpectedWithReturn(Assert.NotEqual, actual, expected, getter);
+#endif
+        {
+            Assert.NotEqual(expected, getter(actual));
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that the <see cref="double"/> thing behind the <paramref name="actual"/>
@@ -166,8 +238,15 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <param name="getter">A functional Getter helper.</param>
         /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertNotEqual<T>([AllowNull] this T actual, double expected, int precision, Func<T?, double> getter)
+#else
         public static T AssertNotEqual<T>(this T actual, double expected, int precision, Func<T, double> getter)
-            => InvokeExpectedWithReturn((e, a) => Assert.NotEqual(e, a, precision), actual, expected, getter);
+#endif
+        {
+            Assert.NotEqual(expected, getter(actual), precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that the <see cref="decimal"/> thing behind the <paramref name="actual"/>
@@ -180,8 +259,15 @@ namespace Xunit
         /// <param name="precision">The floating point precision.</param>
         /// <param name="getter">A functional Getter helper.</param>
         /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertNotEqual<T>([AllowNull] this T actual, decimal expected, int precision, Func<T?, decimal> getter)
+#else
         public static T AssertNotEqual<T>(this T actual, decimal expected, int precision, Func<T, decimal> getter)
-            => InvokeExpectedWithReturn((e, a) => Assert.NotEqual(e, a, precision), actual, expected, getter);
+#endif
+        {
+            Assert.NotEqual(expected, getter(actual), precision);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -190,9 +276,16 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?)"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected)
+#else
         public static IEnumerable<T> AssertEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn<T>(Assert.Equal, actual, expected);
+#endif
+        {
+            Assert.Equal(expected, actual);
+            return actual;
+        }
 
         // ReSharper disable PossibleMultipleEnumeration
         /// <summary>
@@ -203,9 +296,16 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <param name="comparer">The Comparer used to Compare the two objects.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Equal{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
+        /// <see cref="Assert.Equal{T}(IEnumerable{T}?,IEnumerable{T}?,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected, IEqualityComparer<T> comparer)
+#else
         public static IEnumerable<T> AssertEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer)
-            => InvokeBinaryWithReturn(Assert.Equal, actual, expected, comparer);
+#endif
+        {
+            Assert.Equal(expected, actual, comparer);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -214,9 +314,16 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T})"/>
+        /// <see cref="Assert.NotEqual{T}(IEnumerable{T}?,IEnumerable{T}?)"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertNotEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected)
+#else
         public static IEnumerable<T> AssertNotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
-            => InvokeBinaryWithReturn<T>(Assert.NotEqual, actual, expected);
+#endif
+        {
+            Assert.NotEqual(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Does Not Equal <paramref name="expected"/>.
@@ -226,9 +333,16 @@ namespace Xunit
         /// <param name="expected">The Expected value.</param>
         /// <param name="comparer">The Comparer used to Compare the two objects.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.NotEqual{T}(IEnumerable{T},IEnumerable{T},IEqualityComparer{T})"/>
+        /// <see cref="Assert.NotEqual{T}(IEnumerable{T}?,IEnumerable{T}?,IEqualityComparer{T})"/>
+#if XUNIT_NULLABLE
+        public static IEnumerable<T>? AssertNotEqual<T>(this IEnumerable<T>? actual, IEnumerable<T>? expected, IEqualityComparer<T> comparer)
+#else
         public static IEnumerable<T> AssertNotEqual<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer)
-            => InvokeBinaryWithReturn(Assert.NotEqual, actual, expected, comparer);
+#endif
+        {
+            Assert.NotEqual(expected, actual, comparer);
+            return actual;
+        }
         // ReSharper restore PossibleMultipleEnumeration
 
         /// <summary>
@@ -239,8 +353,16 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
+        /// <see cref="Assert.StrictEqual{T}(T,T)"/>
+#if XUNIT_NULLABLE
+        public static T? AssertStrictEqual<T>([AllowNull] this T actual, [AllowNull] T expected)
+#else
         public static T AssertStrictEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn<T>(Assert.StrictEqual, actual, expected);
+#endif
+        {
+            Assert.StrictEqual(expected, actual);
+            return actual;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> is Strictly Not Equal with
@@ -250,8 +372,16 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
+        /// <see cref="Assert.NotStrictEqual{T}(T,T)"/>
+#if XUNIT_NULLABLE
+        public static T? AssertNotStrictEqual<T>([AllowNull] this T actual, [AllowNull] T expected)
+#else
         public static T AssertNotStrictEqual<T>(this T actual, T expected)
-            => InvokeBinaryWithReturn<T>(Assert.NotStrictEqual, actual, expected);
+#endif
+        {
+            Assert.NotStrictEqual(expected, actual);
+            return actual;
+        }
         // ReSharper restore RedundantTypeArgumentsOfMethod
     }
 }

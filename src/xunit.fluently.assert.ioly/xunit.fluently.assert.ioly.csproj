@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
     </PropertyGroup>
@@ -9,24 +8,26 @@
     <PropertyGroup>
         <Description>Provides a set of I/O oriented extension methods methods extending from Xunit.</Description>
         <PackageTags>Ellumination;Technologies;xunit;fluent;fluently;input;output;ioly;IO;path;directory;exists;does;not;file;;contains;system;asset</PackageTags>
-        <!-- "I/O" is the problem child, requires 1.3, not 1.1, in order to find the System.IO API surface area. -->
-        <TargetFramework>netstandard1.3</TargetFramework>
-        <Version>1.2.2.670</Version>
-        <AssemblyVersion>1.2.2.670</AssemblyVersion>
-        <FileVersion>1.2.2.670</FileVersion>
-        <PackageVersion>1.2.2.670</PackageVersion>
+        <!-- 'I/O' is the problem child, requires 1.3+ in order to find the System.IO API surface area -->
+        <TargetFrameworks>netstandard1.3</TargetFrameworks>
+        <Version>1.2.3.878</Version>
+        <AssemblyVersion>1.2.3.878</AssemblyVersion>
+        <FileVersion>1.2.3.878</FileVersion>
+        <PackageVersion>1.2.3.878</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
-        <DocumentationFile>bin\$(Configuration)\netstandard1.3\xunit.fluently.assert.ioly.xml</DocumentationFile>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFranework)\xunit.fluently.assert.ioly.xml</DocumentationFile>
     </PropertyGroup>
 
     <!-- ReSharper disable UnknownProperty -->
     <ItemGroup>
-        <PackageReference Include="xunit.assert" Version="$(XunitVersion)" />
+        <PackageReference Include="xunit" Version="$(XunitVersion)" />
     </ItemGroup>
     <!-- ReSharper restore UnknownProperty -->
 
-    <Import Project="..\Licensing.props" />
+    <Import Project="..\NuGet.Readme.props" />
+    <Import Project="..\NuGet.License.props" />
+    <Import Project="..\NuGet.Packaging.props" />
 
 </Project>

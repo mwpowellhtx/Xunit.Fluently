@@ -4,8 +4,9 @@
         <Authors>Michael W. Powell</Authors>
         <Company>Ellumination Technologies</Company>
         <Product>Xunit.Fluently</Product>
-        <Copyright>Copyright (c) 2019-2020</Copyright>
-        <LangVersion>7.3</LangVersion>
+        <Copyright>Copyright (c) 2019-2024</Copyright>
+        <!-- TODO: is 'latest' the right answer here? we could perhaps do at least 9+, for instance -->
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
@@ -23,35 +24,55 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
+    <!-- TODO: verified, this level is evaluating, but the BAV bumps are definitely not happening -->
+    <!--<Target Name="FluentlyBuilding" BeforeTargets="Build">
+        <PropertyGroup>
+            <BumpAssemblyVersionExists>false</BumpAssemblyVersionExists>
+        </PropertyGroup>
+        <PropertyGroup Condition="Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+            <BumpAssemblyVersionExists>true</BumpAssemblyVersionExists>
+        </PropertyGroup>
+        <Message Importance="high" Text="Fluently building $(BumpAssemblyVersionsVersion) / BumpAssemblyVersions exists: $(BumpAssemblyVersionExists), which: '$(WhichVersionToBump)'" />
+    </Target>-->
+
     <PropertyGroup>
         <RootNamespace>Xunit</RootNamespace>
-        <XunitVersion>2.4.1</XunitVersion>
-        <BumpAssemblyVersionsVersion>1.6.0</BumpAssemblyVersionsVersion>
+        <!-- TODO: double check this is the correct version we want to deploy against -->
+        <XunitVersion>2.8.1</XunitVersion>
+        <BumpAssemblyVersionsVersion>1.9.1</BumpAssemblyVersionsVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)" PrivateAssets="all">
+        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)">
+            <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions -->
     <!-- TODO: TBD: Property WhichVersionToBump can be filled in with Major, Minor, Patch, and so on... default is Patch -->
-    <ItemGroup Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor') And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+    <ItemGroup Condition="('$(TargetFramework)' == '') And ('$(Configuration)' == 'Release') And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')">
         <BumpVersionSpec Include="Version" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="AssemblyVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="FileVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="PackageVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Release' And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Patch') And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+    <ItemGroup Condition="('$(TargetFramework)' == '') And ('$(Configuration)' == 'Release') And ('$(WhichVersionToBump)' == 'Patch')">
         <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
         <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
+    <ItemGroup Condition="('$(TargetFramework)' == '') And ('$(Configuration)' == 'Debug')">
+        <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+        <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
+    </ItemGroup>
+
+    <ItemGroup Condition="('$(FluentUnitTests)' != '') And ('$(Configuration)' == 'Debug')">
         <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />

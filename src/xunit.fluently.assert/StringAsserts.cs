@@ -13,12 +13,25 @@ namespace Xunit
         /// <param name="expectedSubstring">The Expected Substring.</param>
         /// <param name="comparison">An optional Comparison.</param>
         /// <returns>The <paramref name="actualString"/> following successful Assertion.</returns>
-        /// <see cref="Assert.Contains(string,string)"/>
-        /// <see cref="Assert.Contains(string,string,StringComparison)"/>
+        /// <see cref="Assert.Contains(string,string?)"/>
+        /// <see cref="Assert.Contains(string,string?,StringComparison)"/>
+#if XUNIT_NULLABLE
+        public static string? AssertContains(this string? actualString, string expectedSubstring, StringComparison? comparison = null)
+#else
         public static string AssertContains(this string actualString, string expectedSubstring, StringComparison? comparison = null)
-            => comparison == null
-                ? InvokeStringComparison(Assert.Contains, actualString, expectedSubstring)
-                : InvokeStringComparison(Assert.Contains, actualString, expectedSubstring, comparison.Value);
+#endif
+        {
+            if (comparison is null)
+            {
+                Assert.Contains(expectedSubstring, actualString);
+            }
+            else
+            {
+                Assert.Contains(expectedSubstring, actualString, comparison.Value);
+            }
+
+            return actualString;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actualString"/> Contains
@@ -28,12 +41,25 @@ namespace Xunit
         /// <param name="expectedSubstring">The Expected Substring.</param>
         /// <param name="comparison">An optional Comparison.</param>
         /// <returns>The <paramref name="actualString"/> following successful Assertion.</returns>
-        /// <see cref="Assert.DoesNotContain(string,string)"/>
-        /// <see cref="Assert.DoesNotContain(string,string,StringComparison)"/>
+        /// <see cref="Assert.DoesNotContain(string,string?)"/>
+        /// <see cref="Assert.DoesNotContain(string,string?,StringComparison)"/>
+#if XUNIT_NULLABLE
+        public static string? AssertDoesNotContain(this string? actualString, string expectedSubstring, StringComparison? comparison = null)
+#else
         public static string AssertDoesNotContain(this string actualString, string expectedSubstring, StringComparison? comparison = null)
-            => comparison == null
-                ? InvokeStringComparison(Assert.DoesNotContain, actualString, expectedSubstring)
-                : InvokeStringComparison(Assert.DoesNotContain, actualString, expectedSubstring, comparison.Value);
+#endif
+        {
+            if (comparison is null)
+            {
+                Assert.DoesNotContain(expectedSubstring, actualString);
+            }
+            else
+            {
+                Assert.DoesNotContain(expectedSubstring, actualString, comparison.Value);
+            }
+
+            return actualString;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actualString"/> Starts With
@@ -43,12 +69,25 @@ namespace Xunit
         /// <param name="expectedSubstring">The Expected Substring.</param>
         /// <param name="comparison">An optional Comparison.</param>
         /// <returns>The <paramref name="actualString"/> following successful Assertion.</returns>
-        /// <see cref="Assert.StartsWith(string,string)"/>
-        /// <see cref="Assert.StartsWith(string,string,StringComparison)"/>
+        /// <see cref="Assert.StartsWith(string?,string?)"/>
+        /// <see cref="Assert.StartsWith(string?,string?,StringComparison)"/>
+#if XUNIT_NULLABLE
+        public static string? AssertStartsWith(this string? actualString, string? expectedSubstring, StringComparison? comparison = null)
+#else
         public static string AssertStartsWith(this string actualString, string expectedSubstring, StringComparison? comparison = null)
-            => comparison == null
-                ? InvokeStringComparison(Assert.StartsWith, actualString, expectedSubstring)
-                : InvokeStringComparison(Assert.StartsWith, actualString, expectedSubstring, comparison.Value);
+#endif
+        {
+            if (comparison is null)
+            {
+                Assert.StartsWith(expectedSubstring, actualString);
+            }
+            else
+            {
+                Assert.StartsWith(expectedSubstring, actualString, comparison.Value);
+            }
+
+            return actualString;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actualString"/> Ends With
@@ -58,12 +97,25 @@ namespace Xunit
         /// <param name="expectedSubstring">The Expected Substring.</param>
         /// <param name="comparison">An optional Comparison.</param>
         /// <returns>The <paramref name="actualString"/> following successful Assertion.</returns>
-        /// <see cref="Assert.EndsWith(string,string)"/>
-        /// <see cref="Assert.EndsWith(string,string,StringComparison)"/>
+        /// <see cref="Assert.EndsWith(string?,string?)"/>
+        /// <see cref="Assert.EndsWith(string?,string?,StringComparison)"/>
+#if XUNIT_NULLABLE
+        public static string? AssertEndsWith(this string? actualString, string? expectedSubstring, StringComparison? comparison = null)
+#else
         public static string AssertEndsWith(this string actualString, string expectedSubstring, StringComparison? comparison = null)
-            => comparison == null
-                ? InvokeStringComparison(Assert.EndsWith, actualString, expectedSubstring)
-                : InvokeStringComparison(Assert.EndsWith, actualString, expectedSubstring, comparison.Value);
+#endif
+        {
+            if (comparison is null)
+            {
+                Assert.EndsWith(expectedSubstring, actualString);
+            }
+            else
+            {
+                Assert.EndsWith(expectedSubstring, actualString, comparison.Value);
+            }
+
+            return actualString;
+        }
 
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/>.
@@ -71,11 +123,17 @@ namespace Xunit
         /// <param name="actual">The Actual value.</param>
         /// <param name="expected">The Expected value.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Equal(string,string,bool,bool,bool)"/>
+        /// <see cref="Assert.Equal(string?,string?,bool,bool,bool,bool)"/>
+#if XUNIT_NULLABLE
+        public static string? AssertEqual(this string? actual, string? expected)
+#else
         public static string AssertEqual(this string actual, string expected)
-            => InvokeStringComparison(Assert.Equal, actual, expected, false);
+#endif
+        {
+            Assert.Equal(expected, actual, false);
+            return actual;
+        }
 
-        // TODO: TBD: was this intentional? maybe an oversight?
         // ReSharper disable once MethodOverloadWithOptionalParameter
         /// <summary>
         /// Verifies that <paramref name="actual"/> Equals <paramref name="expected"/> including
@@ -86,11 +144,27 @@ namespace Xunit
         /// <param name="ignoreCase">Whether to Ignore Case during the Assertion.</param>
         /// <param name="ignoreLineEndingDifferences">Whether to Ignore Line Ending Differences.</param>
         /// <param name="ignoreWhiteSpaceDifferences">Whether to Ignore White Space Differences.</param>
+        /// <param name="ignoreAllWhiteSpaces">Whether to Ignore All White Spaces.</param>
         /// <returns>The <paramref name="actual"/> value following successful Assertion.</returns>
-        /// <see cref="Assert.Equal(string,string,bool,bool,bool)"/>
-        public static string AssertEqual(this string actual, string expected, bool ignoreCase = false
-            , bool ignoreLineEndingDifferences = false, bool ignoreWhiteSpaceDifferences = false)
-            => InvokeStringComparison(Assert.Equal, actual, expected, ignoreCase, ignoreLineEndingDifferences
-                , ignoreWhiteSpaceDifferences);
+        /// <see cref="Assert.Equal(string?,string?,bool,bool,bool,bool)"/>
+#if XUNIT_NULLABLE
+        public static string? AssertEqual(this string? actual
+            , string? expected
+            , bool ignoreCase = false
+            , bool ignoreLineEndingDifferences = false
+            , bool ignoreWhiteSpaceDifferences = false
+            , bool ignoreAllWhiteSpaces = false)
+#else
+        public static string AssertEqual(this string actual
+            , string expected
+            , bool ignoreCase = false
+            , bool ignoreLineEndingDifferences = false
+            , bool ignoreWhiteSpaceDifferences = false
+            , bool ignoreAllWhiteSpaces = false)
+#endif
+        {
+            Assert.Equal(expected, actual, ignoreCase, ignoreLineEndingDifferences, ignoreWhiteSpaceDifferences, ignoreAllWhiteSpaces);
+            return actual;
+        }
     }
 }

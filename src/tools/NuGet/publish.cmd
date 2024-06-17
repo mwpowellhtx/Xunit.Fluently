@@ -210,7 +210,8 @@ if "%config%" == "" (
 :set_vars
 set xcopy_exe=xcopy.exe
 set xcopy_opts=/y /f
-if "%xcopy_dest_drive%" == "" set xcopy_dest_drive=F:
+rem Because our local packages location changed
+if "%xcopy_dest_drive%" == "" set xcopy_dest_drive=E:
 set xcopy_dest_dir=%xcopy_dest_drive%\Dev\NuGet\local\packages
 rem Expecting NuGet to be found in the System Path.
 set nuget_exe=NuGet.exe

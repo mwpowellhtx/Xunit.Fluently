@@ -1,41 +1,17 @@
-<Project ToolsVersion="15.0">
+<Project>
 
-    <!-- ReSharper disable UnknownProperty -->
-    <Target Name="PackAssemblyNuGetArtifacts" AfterTargets="AfterBuild">
+    <PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
 
-        <!-- TODO: TBD: we might even want to preface this, or caller might want to specify the commands, etc, or we allow for some arguments, etc, to better customize. -->
-        <PropertyGroup>
-            <!-- Redresses the Tags a bit differently for presentation to NuGet Pack. Specifically, Space, not Semi-Colon, delimited. -->
-            <_DelimitedPackageTags>$(PackageTags.Replace(';', ' '))</_DelimitedPackageTags>
-            <_LicenseFile Condition="'$(PackageLicenseFile)' != ''">$(PackageLicenseFile)</_LicenseFile>
-            <_RequireLicenseAccept Condition="'$(PackageRequireLicenseAcceptance)' != ''">$(PackageRequireLicenseAcceptance)</_RequireLicenseAccept>
+    <!-- We think IsPackable ought to be implicit under these conditions, however,
+        we need to do this step because 'test projects' are not automatically set.
+        https://github.com/NuGet/NuGet.Client/blob/7f48b33832927969c21849e092d297e9515d30db/src/NuGet.Core/NuGet.Build.Tasks.Pack/NuGet.Build.Tasks.Pack.targets#L36
+        -->
+    <Target Name="PackableOnGeneratePackageOnBuild" BeforeTargets="Build">
+        <PropertyGroup Condition="'$(GeneratePackageOnBuild)' == 'true'">
+            <IsPackable>$(GeneratePackageOnBuild)</IsPackable>
         </PropertyGroup>
-
-        <ItemGroup>
-            <_NuGetCommandLineArguments Include="&quot;$(MSBuildProjectName).csproj&quot;" />
-            <_NuGetCommandLineArguments Include="-OutputDirectory &quot;bin\$(Configuration)&quot;" />
-            <_NuGetCommandLineArguments Include="-Version $(PackageVersion)" />
-            <!-- We cannot fill in _NuGetProperties as such here, so must defer until further on below. -->
-            <!-- <_NuGetCommandLineArguments Include="-Properties &quot;@(_NuGetProperties, ';')&quot;" /> -->
-        </ItemGroup>
-
-        <ItemGroup>
-            <_NuGetProperties Include="Configuration=$(Configuration)" />
-            <_NuGetProperties Include="tags=$(_DelimitedPackageTags)" Condition="'$(_DelimitedPackageTags)' != ''" />
-            <_NuGetProperties Include="licenseFile=$(_LicenseFile)" Condition="'$(_LicenseFile)' != ''" />
-            <_NuGetProperties Include="requireLicenseAccept=$(_RequireLicenseAccept)" Condition="'$(_RequireLicenseAccept)' != ''" />
-        </ItemGroup>
-
-        <Message Text="Running: nuget pack @(_NuGetCommandLineArguments, ' ') -Properties &quot;@(_NuGetProperties, ';')&quot;" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
-
-        <!-- TODO: TBD: possibly running afoul: https://github.com/NuGet/Home/issues/8713
-         NuGet 5.3 issues a warning for the dependency group when it is specified (NU5128)
-          EXEC : warning : NU5128: Some target frameworks declared in the dependencies group of the nuspec and the lib/ref folder do not have exact matches in the other location. Consult the list of actions below:
-          - Add a dependency group for .NETStandard1.6 to the nuspec -->
-
-        <Exec Command="nuget pack @(_NuGetCommandLineArguments, ' ') -Properties &quot;@(_NuGetProperties, ';')&quot;" />
-
     </Target>
-    <!-- ReSharper restore UnknownProperty -->
 
 </Project>

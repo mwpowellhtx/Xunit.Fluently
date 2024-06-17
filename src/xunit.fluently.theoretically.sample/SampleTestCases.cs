@@ -23,7 +23,7 @@ namespace Xunit.Theoretically
         {
             get
             {
-                IEnumerable<object[]> GetAll()
+                static IEnumerable<object[]> GetAll()
                 {
                     /* This is where you may generate your test cases. Your actual Test Case source
                      * does not need to be a local function, however, we find that this approach lends
@@ -32,7 +32,7 @@ namespace Xunit.Theoretically
                     yield break;
                 }
 
-                return _privateCases ?? (_privateCases = GetAll().ToArray());
+                return _privateCases ??= GetAll().ToArray();
             }
         }
     }

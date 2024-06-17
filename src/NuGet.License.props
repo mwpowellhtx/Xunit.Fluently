@@ -1,0 +1,34 @@
+<Project TreatAsLocalProperty="_LicenseFileDirectory;_SourceLicenseFileName;_SourceFilePath">
+
+    <!-- Thu, 30 May 2024 03:25:54 PM
+        We are satisfied that the FILENAME. (no extension) issue has been resolved and appears to be working now.
+        Additionally, we are able to provide file linkage, and may hide visibility of said files from the author.
+        Which is preferred by default in this instance.
+        -->
+    <PropertyGroup>
+        <_LicenseFileDirectory>..\..\</_LicenseFileDirectory>
+        <_SourceLicenseFileName>LICENSE</_SourceLicenseFileName>
+        <_SourceFilePath>$(_LicenseFileDirectory)$(_SourceLicenseFileName)</_SourceFilePath>
+    </PropertyGroup>
+
+    <!-- May hide the LICENSE file when specified, allowing only Boolean responses. -->
+    <PropertyGroup Condition="!('$(LicenseFileVisible)' == 'false' Or '$(LicenseFileVisible)' == 'true')">
+        <LicenseFileVisible>false</LicenseFileVisible>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageLicenseFile>$(_SourceLicenseFileName)</PackageLicenseFile>
+        <!-- NuGet 'licenseUrl' is deprecated, use 'license' instead, however, this also seems to fill in with an ugly looking URL:
+            https://aka.ms/deprecateLicenseUrl
+            Our opinion, if it is really deprecated, then just drop the Xml element altogether, right.
+            -->
+        <!--<PackageLicenseUrl>https://gnu.org/licenses/gpl-3.0.en.html</PackageLicenseUrl>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(_SourceFilePath)" Link="$(_SourceLicenseFileName)" Visible="$(LicenseFileVisible)" Pack="true" PackagePath=".">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>
