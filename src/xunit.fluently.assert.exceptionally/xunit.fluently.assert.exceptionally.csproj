@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
+        <!--<WhichVersionToBump Condition="'$(Configuration)' == 'Release'">patch</WhichVersionToBump>-->
     </PropertyGroup>
 
     <!-- TODO: we are 'probably okay' just to target netstandard1.1 here for now -->
@@ -10,10 +10,10 @@
         <Description>Provides a set of Exception oriented extension methods methods extending from Xunit.</Description>
         <PackageTags>Ellumination;Technologies;xunit;fluent;fluently;throw;throws;Exception;Action;Any;Async;Task;future;Type:Verify;actual;expected</PackageTags>
         <TargetFrameworks>netstandard1.1</TargetFrameworks>
-        <Version>1.0.3.878</Version>
-        <AssemblyVersion>1.0.3.878</AssemblyVersion>
-        <FileVersion>1.0.3.878</FileVersion>
-        <PackageVersion>1.0.3.878</PackageVersion>
+        <Version>1.0.3.886</Version>
+        <AssemblyVersion>1.0.3.886</AssemblyVersion>
+        <FileVersion>1.0.3.886</FileVersion>
+        <PackageVersion>1.0.3.886</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
