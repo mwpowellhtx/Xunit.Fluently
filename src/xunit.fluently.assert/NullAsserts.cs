@@ -1,4 +1,6 @@
 ﻿// ReSharper disable once IdentifierTypo
+using System;
+
 namespace Xunit
 {
     public static partial class FluentlyExtensionMethods
@@ -70,6 +72,134 @@ namespace Xunit
 #endif
         {
             Assert.NotNull(value);
+            return value;
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="value"/> <typeparamref name="T"/> class is Null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertClassInstanceNull<T>(this T? value)
+            where T : class
+#else // Redundancy
+        public static T AssertClassInstanceNull<T>(this T value)
+            where T : class
+#endif
+        {
+            Assert.Null(value);
+            return value;
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="value"/> <typeparamref name="T"/> class is Not Null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertClassInstanceNotNull<T>(this T? value)
+            where T : class
+#else // Redundancy
+        public static T AssertClassInstanceNotNull<T>(this T value)
+            where T : class
+#endif
+        {
+            Assert.NotNull(value);
+            return value;
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="value"/> <typeparamref name="U"/> gotten by
+        /// <paramref name="getter"/> is Null. <typeparamref name="T"/> may be anything,
+        /// which itself should also yield an <typeparamref name="U"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="getter"></param>
+        /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertClassMemberNull<T, U>(this T? value, Func<T?, U?> getter)
+            where T : class
+#else // Redundancy
+        public static T AssertClassMemberNull<T, U>(this T value, Func<T, U> getter)
+            where T : class
+#endif
+        {
+            Assert.Null(getter(value));
+            return value;
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="value"/> <typeparamref name="U"/> gotten by
+        /// <paramref name="getter"/> is Not Null. <typeparamref name="T"/> may be anything,
+        /// which itself should also yield an <typeparamref name="U"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="getter"></param>
+        /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertClassMemberNotNull<T, U>(this T? value, Func<T?, U?> getter)
+            where T : class
+#else // Redundancy
+        public static T AssertClassMemberNotNull<T, U>(this T value, Func<T, U> getter)
+            where T : class
+#endif
+        {
+            Assert.NotNull(getter(value));
+            return value;
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="value"/> <typeparamref name="U"/> gotten by
+        /// <paramref name="getter"/> is Null. <typeparamref name="T"/> may be anything,
+        /// which itself should also yield an <typeparamref name="U"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="getter"></param>
+        /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertClassMemberStructNull<T, U>(this T? value, Func<T?, U?> getter)
+            where T : class
+            where U : struct
+#else // Redundancy
+        public static T AssertClassMemberStructNull<T, U>(this T value, Func<T, U?> getter)
+            where T : class
+            where U : struct
+#endif
+        {
+            Assert.Null(getter(value));
+            return value;
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="value"/> <typeparamref name="U"/> gotten by
+        /// <paramref name="getter"/> is Not Null. <typeparamref name="T"/> may be anything,
+        /// which itself should also yield an <typeparamref name="U"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="getter"></param>
+        /// <returns></returns>
+#if XUNIT_NULLABLE
+        public static T? AssertClassMemberStructNotNull<T, U>(this T? value, Func<T?, U?> getter)
+            where T : class
+            where U : struct
+#else // Redundancy
+        public static T AssertClassMemberStructNotNull<T, U>(this T value, Func<T, U?> getter)
+            where T : class
+            where U : struct
+#endif
+        {
+            Assert.NotNull(getter(value));
             return value;
         }
     }

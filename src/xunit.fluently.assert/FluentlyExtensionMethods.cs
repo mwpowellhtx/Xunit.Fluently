@@ -18,6 +18,8 @@ namespace Xunit
     /// <see cref="Assert"/>
     /// <see cref="!:https://github.com/xunit/assert.xunit">Project is organized more or less
     /// analogous to the Xunit project.</see>
+    /// <see cref="!:https://github.com/mwpowellhtx/Xunit.Fluently/issues/5">Consider overloading
+    /// some methods with generic type specific roots</see>
     public static partial class FluentlyExtensionMethods
     {
         // TODO: TBD: there are a handful of bits I do not have any concerns over at the moment...
