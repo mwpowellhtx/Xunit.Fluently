@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <!-- TODO: holding fast on the CSPROJ files and .PROPS in review, tomrrow -->
     <!-- TODO: 1. what version(s) of xunit whatever are we deploying against, and where -->
@@ -15,8 +15,7 @@
     <PropertyGroup>
         <!-- TODO: may factor this instead as a packaging step -->
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <WhichVersionToBump Condition="'$(Configuration)' == 'Debug'">Minor</WhichVersionToBump>
-        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
+        <!--<WhichVersionToBump Condition="'$(Configuration)' == 'Release'">minor</WhichVersionToBump>-->
     </PropertyGroup>
 
     <PropertyGroup>
@@ -38,10 +37,10 @@
             the bar slightly from netstandard2.0; Reflection, BindingFlags also required
             netstandard1.5+. -->
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-        <Version>1.7.1.878</Version>
-        <AssemblyVersion>1.7.1.878</AssemblyVersion>
-        <FileVersion>1.7.1.878</FileVersion>
-        <PackageVersion>1.7.1.878</PackageVersion>
+        <Version>1.8.0.74</Version>
+        <AssemblyVersion>1.8.0.74</AssemblyVersion>
+        <FileVersion>1.8.0.74</FileVersion>
+        <PackageVersion>1.8.0.74</PackageVersion>
     </PropertyGroup>
 
     <!-- Must do the Condition at the group level in this case, because Nullable does not support Condition. -->

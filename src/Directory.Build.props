@@ -43,36 +43,43 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)">
-            <PrivateAssets>all</PrivateAssets>
+        <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)" PrivateAssets="all">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-conditions -->
     <!-- TODO: TBD: Property WhichVersionToBump can be filled in with Major, Minor, Patch, and so on... default is Patch -->
-    <ItemGroup Condition="('$(TargetFramework)' == '') And ('$(Configuration)' == 'Release') And ('$(WhichVersionToBump)' == '' Or '$(WhichVersionToBump)' == 'Minor')">
-        <BumpVersionSpec Include="Version" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
-        <BumpVersionSpec Include="AssemblyVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
-        <BumpVersionSpec Include="FileVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
-        <BumpVersionSpec Include="PackageVersion" MinorProviderTemplate="Increment" PatchProviderTemplateMayReset="true" BuildProviderTemplate="MinutesSinceMidnight" />
-    </ItemGroup>
-
-    <ItemGroup Condition="('$(TargetFramework)' == '') And ('$(Configuration)' == 'Release') And ('$(WhichVersionToBump)' == 'Patch')">
-        <BumpVersionSpec Include="Version" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
-        <BumpVersionSpec Include="AssemblyVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
-        <BumpVersionSpec Include="FileVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
-        <BumpVersionSpec Include="PackageVersion" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
-    </ItemGroup>
-
-    <ItemGroup Condition="('$(TargetFramework)' == '') And ('$(Configuration)' == 'Debug')">
+    <ItemGroup Condition="'$(TargetFramework)' == '' And '$(Configuration)' == 'Debug'">
         <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
     </ItemGroup>
 
-    <ItemGroup Condition="('$(FluentUnitTests)' != '') And ('$(Configuration)' == 'Debug')">
+    <!-- When there is no Which involved, it is better to let the targets fall through and not process anything, i.e. no-op. -->
+    <ItemGroup Condition="'$(TargetFramework)' == '' And '$(Configuration)' == 'Release' And '$(WhichVersionToBump)' == 'major'">
+        <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == '' And '$(Configuration)' == 'Release' And '$(WhichVersionToBump)' == 'minor'">
+        <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == '' And '$(Configuration)' == 'Release' And '$(WhichVersionToBump)' == 'patch'">
+        <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+        <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="MinutesSinceMidnight" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(FluentUnitTests)' != '' And '$(Configuration)' == 'Debug'">
         <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
         <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />

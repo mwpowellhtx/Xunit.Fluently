@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
+        <!--<WhichVersionToBump Condition="'$(Configuration)' == 'Release'">patch</WhichVersionToBump>-->
     </PropertyGroup>
 
     <PropertyGroup>

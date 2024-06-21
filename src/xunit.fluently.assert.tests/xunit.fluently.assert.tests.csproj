@@ -6,10 +6,10 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <Version>1.1.0.25475</Version>
-        <AssemblyVersion>1.1.0.25475</AssemblyVersion>
-        <FileVersion>1.1.0.25475</FileVersion>
-        <PackageVersion>1.1.0.25475</PackageVersion>
+        <Version>1.1.0.25483</Version>
+        <AssemblyVersion>1.1.0.25483</AssemblyVersion>
+        <FileVersion>1.1.0.25483</FileVersion>
+        <PackageVersion>1.1.0.25483</PackageVersion>
     </PropertyGroup>
 
     <!-- ReSharper disable UnknownProperty -->

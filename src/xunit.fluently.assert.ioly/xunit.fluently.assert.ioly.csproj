@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <WhichVersionToBump Condition="'$(Configuration)' == 'Release'">Patch</WhichVersionToBump>
+        <!--<WhichVersionToBump Condition="'$(Configuration)' == 'Release'">patch</WhichVersionToBump>-->
     </PropertyGroup>
 
     <PropertyGroup>
@@ -10,10 +10,10 @@
         <PackageTags>Ellumination;Technologies;xunit;fluent;fluently;input;output;ioly;IO;path;directory;exists;does;not;file;;contains;system;asset</PackageTags>
         <!-- 'I/O' is the problem child, requires 1.3+ in order to find the System.IO API surface area -->
         <TargetFrameworks>netstandard1.3</TargetFrameworks>
-        <Version>1.2.3.878</Version>
-        <AssemblyVersion>1.2.3.878</AssemblyVersion>
-        <FileVersion>1.2.3.878</FileVersion>
-        <PackageVersion>1.2.3.878</PackageVersion>
+        <Version>1.2.3.886</Version>
+        <AssemblyVersion>1.2.3.886</AssemblyVersion>
+        <FileVersion>1.2.3.886</FileVersion>
+        <PackageVersion>1.2.3.886</PackageVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
